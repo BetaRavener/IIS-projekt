@@ -1,0 +1,101 @@
+body
+{
+    
+}
+
+#main
+{
+    width: 1026px;
+    margin: auto;
+    background-color: white;
+}
+
+#header
+{
+    margin-top: 100px;
+    width: 100%;
+     height: 250px;
+    background-image: url('obrazky/caj.jpg');
+    background-repeat: no-repeat;
+}
+
+#header table.login
+{
+    margin-left: auto;
+    margin-bottom: auto;
+    border: 2px solid black;
+    padding: 1em 1em 1em 1em;
+    width: 30%;
+}
+
+#header td.label
+{
+    white-space: pre-wrap;
+    font-family: fantasy;   
+}
+
+#header td.name
+{
+    color: yellowgreen; 
+    white-space: pre-wrap;
+    font-family: fantasy;  
+}
+
+#header td.button
+{
+   padding-top: 1em;
+   text-align: center;
+   font-family: fantasy;
+   font-size: 1em;
+}
+
+#menu
+{
+    width: 100%;
+}
+
+#menu ul
+{
+    display: table;
+    width: 100%;
+    padding: 0;
+    list-style-type: none;
+    border-left: 2px solid black;
+}
+
+#menu li
+{
+    display: inline-block;
+    text-align: center;
+    width: 254px;
+    font-size: 2em;
+    border-right: 2px solid black;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    background-color: yellowgreen;
+    cursor: default;
+    color: black;
+}
+
+#menu li:hover
+{
+    background-color: chocolate;
+}
+
+#content
+{ 
+    padding: 1em;
+    border: 2px solid black;
+}
+
+#footer
+{
+    width: 100%;
+}
+
+h1
+{
+    text-align: right;
+    font-size: 3em;
+    font-family: fantasy;
+}
