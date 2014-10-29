@@ -5,7 +5,7 @@ body
 
 #main
 {
-    width: 1026px;
+    width: 1025px;
     margin: auto;
     background-color: white;
 }
@@ -52,34 +52,38 @@ body
 #menu
 {
     width: 100%;
-}
-
-#menu ul
-{
-    display: table;
-    width: 100%;
-    padding: 0;
-    list-style-type: none;
-    border-left: 2px solid black;
-}
-
-#menu li
-{
-    display: inline-block;
     text-align: center;
-    width: 254px;
-    font-size: 2em;
-    border-right: 2px solid black;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
+}
+
+#menu table
+{
+    width: 100%;
+    background-color: black;
+    margin-bottom: 1em; 
+}
+
+#menu td
+{
+    text-align: center;
     background-color: yellowgreen;
     cursor: default;
     color: black;
+    font-size: 2em;
 }
 
-#menu li:hover
+#menu td:hover
 {
     background-color: chocolate;
+}
+
+#menu a
+{
+    display: block;
+    height: 100%;
+    width: 100%;
+    color: black;
+    text-decoration: none;
+    cursor: default;
 }
 
 #content
