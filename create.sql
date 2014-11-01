@@ -104,6 +104,7 @@ create table Uzivatel(
   pk INT NOT NULL AUTO_INCREMENT,
   meno VARCHAR(30) NOT NULL,
   heslo VARCHAR(30) NOT NULL,
+  uuidPrihlasenia INT,
   odberatel_pk INT NOT NULL,
   PRIMARY KEY(pk)
 );
@@ -136,7 +137,7 @@ references Odberatel(pk) on delete cascade;
 /***************************************************************************/
 /* Napln tabulky datami
 /***************************************************************************/
-/*naplnění tabulky Odberatel*/
+/* Naplnenie tabulky Odberatel*/
 insert into Odberatel (pk, meno, priezvisko, adresaBydliska, dodaciaAdresa, email, telefonneCislo, odberNoviniek)
 values (null, 'Tomáš', 'Čížek', 'Jabloňová 456 Vřesina', 'Jabloňová 456 Vřesina', 'xcizek12@stud.fit.vutbr.cz', 123456789, 1);
 insert into Odberatel (pk, meno, priezvisko, adresaBydliska, dodaciaAdresa, email, telefonneCislo, odberNoviniek) 
@@ -144,7 +145,7 @@ values (null, 'Ivan', 'Ševčík', null, 'Halalovka 10 Trenčín', 'xsevci50@stu
 insert into Odberatel (pk, meno, priezvisko, adresaBydliska, dodaciaAdresa, email, telefonneCislo, odberNoviniek) 
 values (null, 'Pavel', 'Nicotka', null, 'Vídeňská 3 Brno', 'nicotka@email.cz', 655352333, 1);
 
-/*naplnění tabulky Dodavatel*/
+/* Naplnenie tabulky Dodavatel*/
 insert into Dodavatel (pk, nazov, ico, weblink, sidlo) 
 values (null, 'True Tea', 12345678, 'www.truetea.com', 'Praha');
 insert into Dodavatel (pk, nazov, ico, weblink, sidlo) 
@@ -158,7 +159,7 @@ values (null, 'Orient Tea and Commodities Co., Ltd.', 11111111, 'orientea.en.ali
 insert into Dodavatel (pk, nazov, ico, weblink, sidlo) 
 values (null, 'Changsha Organic Herb Inc.', 22222222, 'www.organic-herb.com', 'Changsha');
 
-/*naplnění tabulky čajových oblastí*/
+/* Naplnenie tabulky CajovaOblast*/
 insert into CajovaOblast (pk, nazov, popis, typickyDruh, charaktCajov) 
 values (null, 'Rousínov', 'V této oblasti je velmi teplé a vlhké podnebí.', 'Zelený čaj', 'Čaje z této oblasti jsou kyselé.');
 insert into CajovaOblast (pk, nazov, popis, typickyDruh, charaktCajov) 
@@ -172,7 +173,7 @@ values (null, 'Fujian', 'V oblasti převažuje vlhké ale teplé podnebí.', 'Č
 insert into CajovaOblast (pk, nazov, popis, typickyDruh, charaktCajov) 
 values (null, 'Zheijang', 'Velmi slunečná a teplá oblast.', 'Zelený čaj', 'Čaje z této oblasti jsou intenzivní.');
 
-/*naplnění tabulky čajů*/
+/* Naplnenie tabulky Caj*/
 insert into Caj (pk, nazov, druh, krajinaPovodu, kvalita, chut, dobaluhovania, zdravotneucinky, cajovaoblast_pk, dodavatel_pk) 
 values (null, 'Dračí dech', 'Zelený', 'Česko', 'OP', 'Osvěžujíci kyselkavá', 5, null, 1, 1);
 insert into Caj (pk, nazov, druh, krajinaPovodu, kvalita, chut, dobaluhovania, zdravotneucinky, cajovaoblast_pk, dodavatel_pk) 
@@ -188,7 +189,7 @@ values (null, 'Tian Mu Yun Wu', 'Zelený', 'Čína', 'OP', 'Jemná osviežujúca
 insert into Caj (pk, nazov, druh, krajinaPovodu, kvalita, chut, dobaluhovania, zdravotneucinky, cajovaoblast_pk, dodavatel_pk) 
 values (null, 'Gunpowder', 'Zelený', 'Čína', 'OP', 'Zemitá', 4, 'Silný antioxidant', 6, 5);
 
-/*naplnìní tabulky várek*/
+/* Naplnenie tabulky Varka*/
 insert into Varka (pk, cena, dostupneMnozstvo, datumExpiracie, zlava, miestoNaSklade, caj_pk) 
 values (null, 80, 12000, str_to_date('2018,04,01', '%Y,%m,%d'), 0, 5, 1);
 insert into Varka (pk, cena, dostupneMnozstvo, datumExpiracie, zlava, miestoNaSklade, caj_pk) 
@@ -204,7 +205,7 @@ values (null, 102, 8703, str_to_date('2016,07,03', '%Y,%m,%d'), 0.05, 4, 6);
 insert into Varka (pk, cena, dostupneMnozstvo, datumExpiracie, zlava, miestoNaSklade, caj_pk) 
 values (null, 88, 6039, str_to_date('2015,09,01', '%Y,%m,%d'), 0.1, 5, 6);
 
-/*naplnìní tabulky objednávek*/
+/* Naplnenie tabulky Objednavky*/
 insert into Objednavka (pk, stav, datumPrijatia, stornoPoplatok, odberatel_pk) 
 values (null, 'prijatá', str_to_date('2013,03,20,13,00', '%Y,%m,%d,%H,%i'), 200, 1);
 insert into Objednavka (pk, stav, datumPrijatia, stornoPoplatok, odberatel_pk) 
@@ -212,7 +213,7 @@ values (null, 'čeká na prijeti', str_to_date('2013,03,25,12,45', '%Y,%m,%d,%H,
 insert into Objednavka (pk, stav, datumPrijatia, stornoPoplatok, odberatel_pk) 
 values (null, 'neodeslána', null, null, 2);
 
-/*naplnìní tabulky položek objednávky*/
+/* Naplnenie tabulky PolozkaObjednavky*/
 insert into PolozkaObjednavky (pk, objednavka_pk, objednaneMnozstvo, cena, varka_pk) 
 values (null, 1, 800, 80, 1);
 insert into PolozkaObjednavky (pk, objednavka_pk, objednaneMnozstvo, cena, varka_pk) 
@@ -225,3 +226,9 @@ insert into PolozkaObjednavky (pk, objednavka_pk, objednaneMnozstvo, cena, varka
 values (null, 2, 560, 86, 5);
 insert into PolozkaObjednavky (pk, objednavka_pk, objednaneMnozstvo, cena, varka_pk) 
 values (null, 2, 400, 79, 7);
+
+/* Naplnenie tabulky Uzivatel */
+insert into Uzivatel (pk, meno, heslo, uuidPrihlasenia, odberatel_pk)
+values (null, 'test', 'test', null, 1);
+insert into Uzivatel (pk, meno, heslo, uuidPrihlasenia, odberatel_pk)
+values (null, 'test2', 'test2', null, 2);
