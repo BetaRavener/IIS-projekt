@@ -1,15 +1,30 @@
-<table class="login">
-    <form name="f1" method="POST" action="index.php" id="f1">
-        <tr>   
-            <td class="label">User Name : </td>
-            <td><input type="text" name="username" value="" /></td>
-        </tr>
-        <tr>
-            <td class="label">Password   : </td>
-            <td><input type="password" name="password" value="" /></td>
-        </tr>
-        <tr>
-            <td colspan="2" class="button"><input type="submit" name="login" value="Přihlásit" style="font-size:1em; font-family: fantasy" /></td>
-        </tr>
-    </form>
-</table>
+<?php
+    session_start();
+
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    
+    $db = mysql_connect('localhost:/var/run/mysql/mysql.sock', 'xcizek12', 'gunapu9a');
+    if (!$db) die('nelze se pripojit '.mysql_error());
+    if (!mysql_select_db('xcizek12', $db)) die('database neni dostupna '.mysql_error());
+    
+    $sql1 = "SELECT * FROM Uzivatel WHERE meno = '".$username."' AND heslo = '".$password."'";
+    $res = mysql_query($sql1);
+    
+    $row = mysql_fetch_row($res);
+    
+    if($row[0])
+    {
+        setcookie('logged', $username, time() + (86400 * 1), "/");
+        $_SESSION["wrong_nick_or_psw"] = false;
+    }
+    else
+    {
+        setcookie('logged', '', time() - 3600, "/");
+        $_SESSION["wrong_nick_or_psw"] = true;
+    } 
+    
+    header("Location: http://www.stud.fit.vutbr.cz/~xcizek12/iis/index.php");
+?>
+
+ 

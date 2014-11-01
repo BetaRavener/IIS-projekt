@@ -10,22 +10,17 @@
 <body>
 
     <?php
-        header("Content-Type: text/html; charset=UTF-8");     
+        header("Content-Type: text/html; charset=UTF-8"); 
+        error_reporting(0);
+        session_start();    
     ?>
     
     <div id="main">
         <div id="header">
-            <?php 
-                if($logged)
-                {
-                    include 'logged.php';
-                }
-                else
-                {
-                    include 'login.php';
-                }
-            ?>
-            <h1>Prodejna čajů Tomáš a Ivan</h1> 
+            <?php include 'header.php' ?>
+
+            <?php include 'menu.php' ?>
+            
         </div>
         
         <?php $logged = true ?>
@@ -38,3 +33,8 @@
     </div>
 </body>
 </html>
+    
+    <?php
+        session_unset();
+        session_destroy(); 
+    ?>
