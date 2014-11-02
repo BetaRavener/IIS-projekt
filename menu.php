@@ -8,7 +8,7 @@
 <?php if ($logged) { ?>
     <tr>   
         <td>Objednávky</td>
-        <td>Košík</td>
+        <td><a href='cart.php'>Košík</a></td>
         <td>Účet</td>
     </tr>
 <?php } ?>
