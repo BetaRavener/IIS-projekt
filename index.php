@@ -10,52 +10,12 @@
 <body>
 
     <?php
-    header("Content-Type: text/html; charset=UTF-8");
-    
-    error_reporting(0);
-
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    
-    if($username == "" or $password == "")
-    {
-    
-    }
-    else
-    {
-        $db = mysql_connect('localhost:/var/run/mysql/mysql.sock', 'xcizek12', 'gunapu9a');
-        if (!$db) die('nelze se pripojit '.mysql_error());
-        if (!mysql_select_db('xcizek12', $db)) die('database neni dostupna '.mysql_error());
-        
-        $sql1 = "SELECT * FROM Uzivatel WHERE meno = '".$username."' AND heslo = '".$password."'";
-        $res = mysql_query($sql1);
-        
-        if($res)
-        {
-            $logged = true;
-        }
-        else
-        {
-            $logged = false;
-        }
-    }  
+        header("Content-Type: text/html; charset=UTF-8");
+        session_start();
     ?>
     
     <div id="main">
-        <div id="header">
-            <?php 
-                if($logged)
-                {
-                    include 'logged.php';
-                }
-                else
-                {
-                    include 'login.php';
-                }
-            ?>
-            <h1>Prodejna čajů Tomáš a Ivan</h1> 
-        </div>
-
+        <?php include 'header.php' ?>
         <?php include 'menu.php' ?>
         
         <div id="content">
@@ -67,3 +27,10 @@
     </div>
 </body>
 </html>
+
+<?php
+    if (array_key_exists('wrong_nick_or_psw', $_SESSION))
+    {
+        $_SESSION['wrong_nick_or_psw'] = false;
+    }
+?>

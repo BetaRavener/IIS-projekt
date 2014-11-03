@@ -17,7 +17,7 @@ session_start();
     {
         amount = document.getElementById("amount" + batchId).value;
         var http = new XMLHttpRequest();
-        http.open("POST", 'http://www.stud.fit.vutbr.cz/~xsevci50/IIS/addToCart.php', true);
+        http.open("POST", <?php echo $web_home . 'addToCart.php' ?>, true);
         http.setRequestHeader("Content-type","application/x-www-form-urlencoded");
         var params = 'batchId=' + batchId + '&amount=' + amount;
         http.send(params);
@@ -33,20 +33,8 @@ session_start();
     
     <div id="main">
         <div id="header">
-            <?php
-                $logged = true;
-                $username = 'ja';
-                include 'db.php';
-                if($logged)
-                {
-                    include 'logged.php';
-                }
-                else
-                {
-                    include 'login.php';
-                }
-            ?>
-            <h1>Prodejna caju Tomáš a Ivan</h1> 
+            <?php include 'header.php' ?>
+            <?php include 'menu.php' ?>
         </div>
         
         <?php include 'menu.php' ?>

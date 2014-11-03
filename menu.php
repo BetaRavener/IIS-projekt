@@ -5,7 +5,7 @@
         <td><a href="caje.php">Čaje</a></td>
         <td>Kontakty</td>
     </tr>
-<?php if ($logged) { ?>
+<?php if (isset($_COOKIE['logged'])) { ?>
     <tr>   
         <td>Objednávky</td>
         <td><a href='cart.php'>Košík</a></td>
