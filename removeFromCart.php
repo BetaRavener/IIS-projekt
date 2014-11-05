@@ -1,9 +1,28 @@
 <?php
 session_start();
-$cartIdx = $_POST['cartIdx'];
-if (array_key_exists('cart', $_SESSION))
+require_once 'db.php';
+require_once 'loginDetection.php';
+
+$cartItemId = $_POST['cartItemId'];
+if ($_SESSION['userLogedIn'])
 {
-    unset($_SESSION['cart'][$cartIdx]);
-    echo 'zmazane';
+    $result = $db->query('call OdstranZKosika(' . $_SESSION['userId'] . ', ' . $cartItemId . ')');
+    if ($result)
+    {
+        echo 'zmazane';
+    }
+    else
+    {
+        //TODO: Error
+        echo $db->error;
+    }
+}
+else
+{
+    if (array_key_exists('cart', $_SESSION))
+    {
+        unset($_SESSION['cart'][$cartItemId]);
+        echo 'zmazane';
+    }
 }
 ?>

@@ -7,7 +7,7 @@
     </tr>
 <?php if (isset($_COOKIE['logged'])) { ?>
     <tr>   
-        <td>Objednávky</td>
+        <td><a href='orders.php'>Objednávky</a></td>
         <td><a href='cart.php'>Košík</a></td>
         <td>Účet</td>
     </tr>

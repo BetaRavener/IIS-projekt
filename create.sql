@@ -1,3 +1,4 @@
+USE xsevci50;
 SET NAMES 'utf8';
 
 /***************************************************************************/
@@ -11,6 +12,14 @@ drop table if exists Dodavatel cascade;
 drop table if exists CajovaOblast cascade;
 drop table if exists Objednavka cascade;
 drop table if exists Odberatel cascade;
+drop function if exists Odober; 
+drop procedure if exists OdoberPostupne;
+drop function if exists CenaObjednavky;
+drop procedure if exists PotvrdKosik;
+drop function if exists ZiskajKosik;
+drop procedure if exists ZalozKosik;
+drop procedure if exists PridajDoKosika;
+drop procedure if exists OdstranZKosika;
 
 /***************************************************************************/
 /* Vytvor tabulky, ktore budu drzat informacie.
@@ -75,17 +84,18 @@ create table Varka(
   miestoNaSklade NUMERIC(2, 0),
   caj_pk INT NOT NULL,
   PRIMARY KEY(pk)
-);
+) ENGINE = InnoDB;
 
 
 create table Objednavka(
   pk INT NOT NULL AUTO_INCREMENT,
-  stav VARCHAR(20) NOT NULL,
+  stav VARCHAR(20),
   datumPrijatia DATETIME,
-  stornoPoplatok NUMERIC(5, 2),
+  stornoPoplatok NUMERIC(12, 2),
+  kosik BOOL,
   odberatel_pk INT NOT NULL,
   PRIMARY KEY(pk)
-);
+) ENGINE = InnoDB;
 
 
 create table PolozkaObjednavky(
@@ -94,7 +104,7 @@ create table PolozkaObjednavky(
   /* V gramoch */
   objednaneMnozstvo NUMERIC(8, 0) NOT NULL,
   /* Cena za 100 g*/
-  cena NUMERIC(5, 2) NOT NULL,
+  cena NUMERIC(5, 2),
   varka_pk INT NOT NULL,
   PRIMARY KEY(pk)
 );
@@ -206,22 +216,20 @@ insert into Varka (pk, cena, dostupneMnozstvo, datumExpiracie, zlava, miestoNaSk
 values (null, 88, 6039, str_to_date('2015,09,01', '%Y,%m,%d'), 0.1, 5, 6);
 
 /* Naplnenie tabulky Objednavky*/
-insert into Objednavka (pk, stav, datumPrijatia, stornoPoplatok, odberatel_pk) 
-values (null, 'prijatá', str_to_date('2013,03,20,13,00', '%Y,%m,%d,%H,%i'), 200, 1);
-insert into Objednavka (pk, stav, datumPrijatia, stornoPoplatok, odberatel_pk) 
-values (null, 'čeká na prijeti', str_to_date('2013,03,25,12,45', '%Y,%m,%d,%H,%i'), 343, 2);
-insert into Objednavka (pk, stav, datumPrijatia, stornoPoplatok, odberatel_pk) 
-values (null, 'neodeslána', null, null, 2);
+insert into Objednavka (pk, stav, datumPrijatia, stornoPoplatok, kosik, odberatel_pk) 
+values (null, null, null, null, true, 1);
+insert into Objednavka (pk, stav, datumPrijatia, stornoPoplatok, kosik, odberatel_pk) 
+values (null, null, null, null, true, 2);
 
 /* Naplnenie tabulky PolozkaObjednavky*/
 insert into PolozkaObjednavky (pk, objednavka_pk, objednaneMnozstvo, cena, varka_pk) 
-values (null, 1, 800, 80, 1);
+values (null, 1, 1000, NULL, 1);
 insert into PolozkaObjednavky (pk, objednavka_pk, objednaneMnozstvo, cena, varka_pk) 
-values (null, 1, 300, 90, 2);
+values (null, 1, 300, NULL, 2);
 insert into PolozkaObjednavky (pk, objednavka_pk, objednaneMnozstvo, cena, varka_pk) 
 values (null, 2, 500, 93, 2);
 insert into PolozkaObjednavky (pk, objednavka_pk, objednaneMnozstvo, cena, varka_pk) 
-values (null, 1, 1130, 71, 4);
+values (null, 1, 50000, NULL, 4);
 insert into PolozkaObjednavky (pk, objednavka_pk, objednaneMnozstvo, cena, varka_pk) 
 values (null, 2, 560, 86, 5);
 insert into PolozkaObjednavky (pk, objednavka_pk, objednaneMnozstvo, cena, varka_pk) 
@@ -232,3 +240,129 @@ insert into Uzivatel (pk, meno, heslo, uuidPrihlasenia, odberatel_pk)
 values (null, 'test', 'test', null, 1);
 insert into Uzivatel (pk, meno, heslo, uuidPrihlasenia, odberatel_pk)
 values (null, 'test2', 'test2', null, 2);
+
+delimiter //
+
+create function Odober(pkVarky INT, mnozstvo NUMERIC(8, 0))
+returns bool
+begin
+	declare dostupneMnozstvo NUMERIC(8, 0);
+    declare upraveneMnozstvo NUMERIC(8, 0);
+	select Varka.dostupneMnozstvo into dostupneMnozstvo from Varka where Varka.pk = pkVarky;
+    if dostupneMnozstvo >= mnozstvo then
+		set upraveneMnozstvo = dostupneMnozstvo - mnozstvo;
+		update Varka set Varka.dostupneMnozstvo = upraveneMnozstvo where Varka.pk = pkVarky;
+        return true;
+	else
+		return false;
+    end if;
+end //
+
+create procedure OdoberPostupne(pkVarky INT, mnozstvo NUMERIC(8, 0))
+begin
+	declare uspech bool;
+    select Odober(pkVarky, mnozstvo) into uspech;
+    if not uspech then
+		rollback;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Amount';
+    end if;
+end //
+
+create function CenaObjednavky(pkObjednavky INT)
+returns NUMERIC(12, 2)
+begin
+	declare celkovaCena NUMERIC(12, 2);
+    select sum(po.cena * po.objednaneMnozstvo / 100) from PolozkaObjednavky as po where po.objednavka_pk = pkObjednavky into celkovaCena;
+    return celkovaCena;
+end //
+
+create procedure PotvrdKosik(pkUzivatela INT)
+begin
+	declare pkKosik INT;
+	declare pkVarky INT;
+    declare mnozstvo NUMERIC(8, 0);
+    declare done bool default false;
+	declare cur cursor for select po.varka_pk, po.objednaneMnozstvo from PolozkaObjednavky as po where po.objednavka_pk = pkKosik;
+	declare continue handler for not found set done := true;
+	
+    select ZiskajKosik(pkUzivatela) into pkKosik;
+    if pkKosik is null then
+		rollback;
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No cart';
+    end if;
+
+	open cur;
+	curLoop: loop
+		fetch cur into pkVarky, mnozstvo;
+		if done then
+			leave curLoop;
+		end if;
+			call OdoberPostupne(pkVarky, mnozstvo);
+	end loop curLoop;
+
+	close cur;
+	 
+	update PolozkaObjednavky as po
+    set cena = (select Varka.cena * (1 - Varka.zlava) from Varka where Varka.pk = po.varka_pk)
+    where po.objednavka_pk = pkKosik;
+     
+    update Objednavka
+    set stav = 'prijatá', datumPrijatia = now(), kosik = false, stornoPoplatok = (select 0.2 * CenaObjednavky(pkKosik))
+    where Objednavka.pk = pkKosik;
+     
+    commit;
+end //
+
+create function ZiskajKosik(pkUzivatela INT)
+returns INT
+begin
+	declare pkOdberatela INT;
+    declare pkKosik INT;
+    select u.odberatel_pk from Uzivatel as u where u.pk = pkUzivatela into pkOdberatela;
+	select o.pk from Objednavka as o where o.odberatel_pk = pkOdberatela and o.kosik = true into pkKosik;
+    
+    return pkKosik;
+end //
+
+create procedure ZalozKosik(pkUzivatela INT)
+begin
+	declare pkOdberatela INT;
+	declare pkKosik INT;
+    select ZiskajKosik(pkUzivatela) into pkKosik;
+    
+    if pkKosik is not null then
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cart exists';
+    end if;
+    
+    select u.odberatel_pk from Uzivatel as u where u.pk = pkUzivatela into pkOdberatela;
+	insert into Objednavka (pk, stav, datumPrijatia, stornoPoplatok, kosik, odberatel_pk) 
+	values (null, null, null, null, true, pkOdberatela);
+end //
+
+create procedure PridajDoKosika(pkUzivatela INT, pkVarky INT, mnozstvo NUMERIC(8, 0))
+begin
+	declare pkKosik INT;
+    select ZiskajKosik(pkUzivatela) into pkKosik;
+    if pkKosik is null then
+		call ZalozKosik(pkUzivatela);
+        select ZiskajKosik(pkUzivatela) into pkKosik;
+    end if;
+    
+    insert into PolozkaObjednavky (pk, objednavka_pk, objednaneMnozstvo, cena, varka_pk) 
+	values (null, pkKosik, mnozstvo, NULL, pkVarky);
+end //
+
+create procedure OdstranZKosika(pkUzivatela INT, pkPolozky INT)
+begin
+	declare pkKosik INT;
+    select ZiskajKosik(pkUzivatela) into pkKosik;
+    if pkKosik is null then
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No cart';
+    end if;
+    
+    delete from PolozkaObjednavky where PolozkaObjednavky.pk = pkPolozky;
+end //
+
+delimiter ;
+
+commit;
