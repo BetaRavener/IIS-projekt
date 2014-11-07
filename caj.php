@@ -12,12 +12,16 @@ session_start();
 </head>
 
 <body>
+    <?php
+        require_once 'mainInit.php';
+    ?>
+
     <script>
     function addToCart(batchId)
     {
         amount = document.getElementById("amount" + batchId).value;
         var http = new XMLHttpRequest();
-        http.open("POST", <?php echo $web_home . 'addToCart.php' ?>, true);
+        http.open("POST", '<?php echo $web_home . 'addToCart.php' ?>', true);
         http.setRequestHeader("Content-type","application/x-www-form-urlencoded");
         var params = 'batchId=' + batchId + '&amount=' + amount;
         http.send(params);
@@ -26,10 +30,6 @@ session_start();
         }
     }
     </script>
-
-    <?php
-        header("Content-Type: text/html; charset=UTF-8");     
-    ?>
     
     <div id="main">
         <?php include 'header.php' ?>
