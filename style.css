@@ -118,6 +118,11 @@ h1
     background-color: #b0c4de;
 }
 
+#teaTable .edit
+{
+    width: 90%;
+}
+
 .teaTableRow
 {
     background-color: #ffffff;
