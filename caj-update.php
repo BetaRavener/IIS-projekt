@@ -33,7 +33,6 @@
         
         for ($i = 0; $i < $_POST['count']; $i++) {
             $sql = "UPDATE Varka SET dostupneMnozstvo=".$_POST['dostupneMnozstvo'.$i].", datumExpiracie=".$_POST['datumExpiracie'.$i].", cena=".$_POST['cena'.$i].", zlava=".($_POST['zlava'.$i]/100)." WHERE pk=".$_POST['pk'.$i];
-            //echo $sql;
             if ($db->query($sql) === TRUE) {
                 
             } else {

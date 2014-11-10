@@ -12,7 +12,7 @@
         echo "<tr>";   
         echo "<td><a href='orders.php'>Objednávky</a></td>";
         echo "<td><a href='cart.php'>Košík</a></td>";
-        echo "<td>Účet</td>";
+        echo "<td><a href='user-edit.php'>Účet</a></td>";
         echo "</tr>";
     }
     else { 

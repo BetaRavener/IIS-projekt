@@ -49,6 +49,14 @@ body
    font-size: 1em;
 }
 
+#header td button
+{
+   margin-left: 1em;
+   text-align: center;
+   font-family: fantasy;
+   font-size: 1em;
+}
+
 #menu
 {
     width: 100%;
