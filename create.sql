@@ -342,14 +342,22 @@ end //
 create procedure PridajDoKosika(pkUzivatela INT, pkVarky INT, mnozstvo NUMERIC(8, 0))
 begin
 	declare pkKosik INT;
+    declare pkPolozky INT;
+    
     select ZiskajKosik(pkUzivatela) into pkKosik;
     if pkKosik is null then
 		call ZalozKosik(pkUzivatela);
         select ZiskajKosik(pkUzivatela) into pkKosik;
     end if;
     
-    insert into PolozkaObjednavky (pk, objednavka_pk, objednaneMnozstvo, cena, varka_pk) 
-	values (null, pkKosik, mnozstvo, NULL, pkVarky);
+    select po.pk from PolozkaObjednavky as po where po.varka_pk = pkVarky and po.objednavka_pk = pkKosik into pkPolozky;
+    
+    if pkPolozky is not null then
+		update PolozkaObjednavky as po set po.objednaneMnozstvo = po.objednaneMnozstvo + mnozstvo where po.pk = pkPolozky;
+    else
+		insert into PolozkaObjednavky (pk, objednavka_pk, objednaneMnozstvo, cena, varka_pk) 
+		values (null, pkKosik, mnozstvo, NULL, pkVarky);
+    end if;
 end //
 
 create procedure OdstranZKosika(pkUzivatela INT, pkPolozky INT)
