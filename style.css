@@ -49,6 +49,14 @@ body
    font-size: 1em;
 }
 
+#header td button
+{
+   margin-left: 1em;
+   text-align: center;
+   font-family: fantasy;
+   font-size: 1em;
+}
+
 #menu
 {
     width: 100%;
@@ -92,6 +100,12 @@ body
     border: 2px solid black;
 }
 
+#content .button_center
+{
+   text-align: center;
+   margin-top: 1em;
+}
+
 #footer
 {
     width: 100%;
@@ -112,9 +126,18 @@ h1
     background-color: #b0c4de;
 }
 
+#teaTable .edit
+{
+    width: 90%;
+}
+
 .teaTableRow
 {
     background-color: #ffffff;
+}
+.teaTableRow td
+{
+    text-align: center;
 }
 
 .teaTableRowHover
@@ -122,10 +145,21 @@ h1
     background-color: #b0a389;
 }
 
+.teaTableRowHover td
+{
+    text-align: center;
+}
+
 .cartImg
 {
     width: 50px;
     height: 50px;
+}
+
+.pencilImg
+{
+    width: 20px;
+    height: 20px;
 }
 
 .removeImg

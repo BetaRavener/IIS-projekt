@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 ?>
 
@@ -32,12 +32,9 @@ session_start();
     </script>
     
     <div id="main">
-        <div id="header">
-            <?php include 'header.php' ?>
-            <?php include 'menu.php' ?>
-        </div>
-        
+        <?php include 'header.php' ?>
         <?php include 'menu.php' ?>
+        
         <div id="content">
             <?php
             $teaId = -1;
@@ -95,7 +92,7 @@ session_start();
             }
             else
             {
-                echo '<h2>' . 'Neznámej čaj' . '</h2>';
+                echo '<h2>' . 'Neznámý čaj' . '</h2>';
             }
             ?>
         </div>

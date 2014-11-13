@@ -4,7 +4,7 @@
 
     if ($userLogedIn) { ?>
     <table class="login">
-        <form name="f1" method="POST" action="logout.php" id="f1">
+        <form name="login" method="POST" action="logout.php">
             <tr>   
                 <td class="label">Přihlášen jako:</td>
             </tr>
@@ -17,7 +17,7 @@
     </table>
     <?php } else {?>
         <table class="login">
-            <form name="f1" method="POST" action="login.php" id="f1">
+            <form name="login" method="POST" action="login.php">
                 <tr>   
                     <td class="label">Jméno</td>
                     <td class="label">:</td>
@@ -51,7 +51,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="3" class="button"><input type="submit" name="login" value="Přihlásit" style="font-size:1em; font-family: fantasy" /></td>
+                    <td colspan="3" class="button">
+                        <input type="submit" name="login" value="Přihlásit" style="font-size:1em; font-family: fantasy" />
+                        <a href="registration.php"><button type="button">Registrace</button></a>
+                    </td>
                 </tr>
             </form>
         </table>
