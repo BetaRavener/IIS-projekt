@@ -42,15 +42,22 @@ session_start();
                 echo '<th>Název čaju</th>';
                 echo '<th>Cena (100g)</th>';
                 echo '<th>Množství (g)</th>';
+                echo '<th>Cena</th>';
                 echo '</tr>';
+                $totalPrice = 0;
                 while($row = $result->fetch_assoc()) {
                     echo '<tr id=row' . $row['pk'] . '>';
                     echo '<td>' . $row['nazov'] . '</td>';
                     echo '<td>' . $row['cena'] . '</td>';
                     echo '<td>' . $row['mnozstvo'] . '</td>';
+                    $price = floatval($row['cena']) * floatval($row['mnozstvo']) / 100;
+                    $totalPrice += $price;
+                    echo '<td>' . $price . '</td>';
                     echo '</tr>';
                 }
                 echo '</table>';
+                
+                echo 'Celková cena: <b>' . $totalPrice . '</b>';
                 
                 $result = $db->query('select odb.* from Odberatel as odb join Uzivatel as u on odb.pk = u.odberatel_pk where u.pk =' . $userId);
                 if ($result and $result->num_rows == 1)

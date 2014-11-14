@@ -82,7 +82,7 @@ session_start();
                         {
                             echo '<td>' . $price . '</td>';
                         }
-                        echo '<td><input type=number id="amount' . $row['pk'] . '"/></td>';
+                        echo '<td><input type=number id="amount' . $row['pk'] . '" value="0" /></td>';
                         echo '<td onClick=\'addToCart(' . $row['pk'] . ')\'><img src="obrazky/cart.png" class="cartImg"></td>';
                         echo '</tr>';
                     }

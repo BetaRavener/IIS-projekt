@@ -11,7 +11,7 @@ session_start();
 <link rel="stylesheet" href="style.css" type="text/css" >
 </head>
 
-<body>
+<body onload='onBodyLoad()'>
     <?php
         header("Content-Type: text/html; charset=UTF-8");
         include_once('mainInit.php');
@@ -35,13 +35,79 @@ session_start();
         var params = 'cartItemId=' + index;
         http.send(params);
         http.onload = function() {
-            document.getElementById('row' + index).style.display = 'none';
+            var elem = document.getElementById('row' + index)
+            elem.parentNode.removeChild(elem);
             alert(http.responseText);
             removeFromCart.counter--;
             if (removeFromCart.counter == 0)
                 location.reload();
+            else
+                totalPrice();
         }
     }
+    
+    function totalPrice()
+    {
+        var elem = document.getElementById('totalPrice');
+        if (elem !== null)
+        {
+            var list = document.getElementsByTagName('td');
+            var arr = Array.prototype.slice.call(list, 0);
+            var total = 0;
+            arr.forEach(function (tdElem) {
+                if (/^price.*$/.test(tdElem.id))
+                {
+                    var price = parseFloat(tdElem.innerHTML);
+                    total += price;
+                }
+            });
+            elem.innerHTML = total.toString();
+        }
+    }
+    
+    function amountChanged(idx)
+    {
+        var amountElem = document.getElementById('amount' + idx);
+        var amount = parseFloat(amountElem.value);
+        var price = 0;
+        if (!isNaN(amount))
+        {
+            var unitPrice = parseFloat(document.getElementById('unitPrice' + idx).innerHTML);
+            price = unitPrice * amount / 100;
+            
+            if(!checkAvailable(idx))
+                alert('mnozstvo');
+        }
+        document.getElementById('price' + idx).innerHTML = price.toString();
+
+        totalPrice();
+    }
+    
+    function checkAvailable(idx)
+    {
+        var amountElem = document.getElementById('amount' + idx);
+        var availableElem = document.getElementById('available' + idx);
+        
+        var amount = parseFloat(amountElem.value);
+        var available = parseFloat(availableElem.innerHTML);
+        
+        return amount <= available;
+    }
+    
+    function onBodyLoad()
+    {
+        var list = document.getElementsByTagName('tr');
+        var arr = Array.prototype.slice.call(list, 0);
+        arr.forEach(function (tdElem) {
+            if (/^row.*$/.test(tdElem.id))
+            {
+                if (!checkAvailable(parseInt(tdElem.id.slice(3))))
+                    alert('mnozstvo');
+            }
+        });
+        totalPrice();
+    }
+    
     </script>
     
     <div id="main">
@@ -53,7 +119,7 @@ session_start();
         <div id="content">
             <h2>Košík</h2>
             <?php
-            $selectQuery = 'select po.pk, c.nazov, po.objednaneMnozstvo as mnozstvo, v.cena * (1 - v.zlava) as cena ';
+            $selectQuery = 'select po.pk, c.nazov, po.objednaneMnozstvo as mnozstvo, v.cena * (1 - v.zlava) as cena, v.dostupneMnozstvo ';
             $selectQuery .= 'from (PolozkaObjednavky as po left join Varka as v on po.varka_pk = v.pk) left join Caj as c on v.caj_pk = c.pk ';
             $selectQuery .= 'where po.objednavka_pk = ZiskajKosik(' . $userId . ')';
             
@@ -64,20 +130,25 @@ session_start();
                 echo '<tr>';
                 echo '<th>Název čaju</th>';
                 echo '<th>Cena (100g)</th>';
+                echo '<th>Dostupné množství (g)</th>';
                 echo '<th>Množství (g)</th>';
+                echo '<th>Cena</th>';
                 echo '</tr>';
                 
                 while($row = $result->fetch_assoc()) {
                     echo '<tr id=row' . $row['pk'] . '>';
                     echo '<td>' . $row['nazov'] . '</td>';
-                    echo '<td>' . $row['cena'] . '</td>';
-                    echo '<td>' . $row['mnozstvo'] . '</td>';
+                    echo '<td id=unitPrice' . $row['pk'] . '>' . $row['cena'] . '</td>';
+                    echo '<td id="available' . $row['pk'] . '">' . $row['dostupneMnozstvo'] . '</td>';
+                    echo '<td> <input type=number id="amount' . $row['pk'] . '" value="' . $row['mnozstvo'] . '" oninput="amountChanged(' . $row['pk'] . ')"/> </td>';
+                    echo '<td id=price' . $row['pk'] . '>' . floatval($row['cena']) * floatval($row['mnozstvo']) / 100 . '</td>';
                     echo '<td onclick=\'removeFromCart(' . $row['pk'] . ')\'><img src="obrazky/remove.png" class="removeimg"></td>';
                     echo '</tr>';
                 }
                 
                 echo '</table>';
                 
+                echo 'Celková cena: <b id=totalPrice>0</b>';
                 echo '<form action="order.php">';
                 echo '<input type=submit value="Přejít na objednávku" />';
                 echo '</form>';
