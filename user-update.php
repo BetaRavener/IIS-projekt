@@ -78,5 +78,15 @@
 
 //mysqli_insert_id($link)
 
+/*
+    opravit aby se nemenilo heslo kdyz je prazdne pri uprave 
+    kontrolovat objednavky pri mazani caju a varek
+    zrusit ucet
+    pridat varku kvezdicky
+    objednavky:
+    tabulka 1: objednavka.stav = "prijata"
+    tabulka 2: objednavka.stav != "priajata" and objednavka.kosik = false
+*/
+
 ?>
 
