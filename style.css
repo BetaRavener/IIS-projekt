@@ -150,6 +150,25 @@ h1
     text-align: center;
 }
 
+.customerTableRow
+{
+    background-color: #ffffff;
+}
+.customerTableRow td
+{
+    text-align: center;
+}
+
+.customerTableRowHover
+{
+    background-color: #b0a389;
+}
+
+.customerTableRowHover td
+{
+    text-align: center;
+}
+
 .cartImg
 {
     width: 50px;

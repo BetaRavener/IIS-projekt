@@ -13,8 +13,8 @@ session_start();
 
 <body>
     <?php
-        header("Content-Type: text/html; charset=UTF-8");
-        include_once('mainInit.php');
+        require_once 'mainInit.php';
+        require_once 'utility.php';
     ?>
     
     <div id="main">
@@ -36,14 +36,23 @@ session_start();
                 echo '<th>Datum přijetí</th>';
                 echo '<th>Stav</th>';
                 echo '<th>Storno poplatek</th>';
+                echo '<th>Stornovat</th>';
                 echo '</tr>';
                 
                 while($row = $result->fetch_assoc()) {
                     echo '<tr id=row' . $row['pk'] . '>';
                     echo '<td>' . $row['datumPrijatia'] . '</td>';
                     echo '<td>' . $row['stav'] . '</td>';
-                    echo '<td>' . $row['stornoPoplatok'] . '</td>';
-                    echo '<td onclick=\'storno(' . $row['pk'] . ')\'><img src="obrazky/remove.png" class="removeimg"></td>';
+                    
+                    if (isOrderNotProcessed($row['stav']))
+                    {
+                        echo '<td>' . $row['stornoPoplatok'] . '</td>';
+                        echo '<td><a href=stornoOrder.php?id=' . $row['pk'] . '><img src="obrazky/remove.png" class="removeimg"></a></td>';
+                    }
+                    else
+                    {
+                        echo '<td> --- </td>';
+                    }
                     echo '</tr>';
                 }
                 

@@ -40,7 +40,7 @@ session_start();
             $teaId = -1;
             if (array_key_exists('id', $_GET))
                 $teaId = $_GET['id'];
-            $result = $db->query('SELECT * FROM Caj WHERE Caj.pk=' . $teaId);
+            $result = $db->query('SELECT c.*, d.nazov as dNazov, o.nazov as oNazov FROM (Caj as c LEFT JOIN Dodavatel AS d on c.dodavatel_pk = d.pk) LEFT JOIN CajovaOblast AS o ON c.cajovaoblast_pk = o.pk WHERE c.pk=' . $teaId);
             if ($result->num_rows == 1)
             {
                 $tea = $result->fetch_assoc();
@@ -48,12 +48,24 @@ session_start();
                 <h2> <?php echo $tea['nazov'] ?> </h2>
                 Druh: <?php echo $tea['druh'] ?> <br />
                 Krajina původu: <?php echo $tea['krajinaPovodu'] ?> <br />
-                Kvalita: <?php echo $tea['kvalita'] ?> <br />
+                Kvalita: <?php echo empty($tea['kvalita']) ? 'Základní' : $tea['kvalita'] ?> <br />
                 Chut: <?php echo $tea['chut'] ?> <br />
                 Lůhovací doba: <?php echo $tea['dobaLuhovania'] ?> <br />
-                Zdravotní ůčinky: <?php echo $tea['zdravotneUcinky'] ?> <br />
-                Čajová oblast: <?php echo $tea['cajovaoblast_pk'] ?> <br />
-                Dodavatel: <?php echo $tea['dodavatel_pk'] ?> <br />
+                Zdravotní ůčinky: <?php echo empty($tea['zdravotneUcinky']) ? 'Žádné' : $tea['zdravotneUcinky'] ?> <br />
+                Čajová oblast: 
+                <?php
+                if (empty($tea['cajovaoblast_pk']))
+                    echo 'Neznámá';
+                else
+                    echo '<a href=' . $web_home . 'area.php?id=' . $tea['cajovaoblast_pk'] . '>' . $tea['oNazov'] . '</a>';
+                ?> <br />
+                Dodavatel: 
+                <?php
+                if (empty($tea['dodavatel_pk']))
+                    echo 'Neznámý';
+                else
+                    echo '<a href=' . $web_home . 'supplier.php?id=' . $tea['dodavatel_pk'] . '>' . $tea['dNazov'] . '</a>';
+                ?> <br />
                 
                 <h3> Dostupné várky </h3>
                 <table id="teaTable">

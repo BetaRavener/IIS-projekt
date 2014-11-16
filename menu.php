@@ -21,6 +21,10 @@
         echo "<td>Editovat objednávky</td>";
         echo "<td>Editovat účty</td>";
         echo "</tr>";
+        echo "<tr>";
+        echo "<td><a href='customers.php'>Odběratelé</a></td>";
+        echo "<td><a href='mail.php'>Zaslat novinku</a></td>";
+        echo "</tr>";
     }
 } ?>
 

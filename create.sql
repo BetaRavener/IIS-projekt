@@ -1,4 +1,4 @@
-USE xcizek12;
+USE xsevci50;
 SET NAMES 'utf8';
 
 /***************************************************************************/
@@ -16,6 +16,8 @@ drop function if exists Odober;
 drop procedure if exists OdoberPostupne;
 drop function if exists CenaObjednavky;
 drop procedure if exists PotvrdKosik;
+drop procedure if exists NavratMnozstvo;
+drop procedure if exists StornujObjednavku;
 drop function if exists ZiskajKosik;
 drop procedure if exists ZalozKosik;
 drop procedure if exists PridajDoKosika;
@@ -309,8 +311,48 @@ begin
     where po.objednavka_pk = pkKosik;
      
     update Objednavka
-    set stav = 'prijatá', datumPrijatia = now(), kosik = false, stornoPoplatok = (select 0.2 * CenaObjednavky(pkKosik))
+    set stav = 'přijatá', datumPrijatia = now(), kosik = false, stornoPoplatok = (select 0.2 * CenaObjednavky(pkKosik))
     where Objednavka.pk = pkKosik;
+     
+    commit;
+end //
+
+create procedure NavratMnozstvo(pkVarky INT, mnozstvo INT)
+begin
+	update Varka as v
+    set v.dostupneMnozstvo = v.dostupneMnozstvo + mnozstvo
+    where v.pk = pkVarky;
+end //
+
+create procedure StornujObjednavku(pkUzivatela INT, pkObjednavky INT)
+begin
+	declare pkOdberatela INT;
+    declare pkObjednavkyKontrola INT;
+    declare pkVarky INT;
+    declare mnozstvo NUMERIC(8, 0);
+    declare done bool default false;
+	declare cur cursor for select po.varka_pk, po.objednaneMnozstvo from PolozkaObjednavky as po where po.objednavka_pk = pkObjednavky;
+	declare continue handler for not found set done := true;
+    
+    select u.odberatel_pk from Uzivatel as u where u.pk = pkUzivatela into pkOdberatela;
+    select o.pk from Objednavka as o where o.odberatel_pk = pkOdberatela and o.stav = 'přijatá' into pkObjednavkyKontrola;
+    
+    if pkObjednavkyKontrola is null then
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid order';
+    end if;
+
+	open cur;
+	curLoop: loop
+		fetch cur into pkVarky, mnozstvo;
+		if done then
+			leave curLoop;
+		end if;
+			call NavratMnozstvo(pkVarky, mnozstvo);
+	end loop curLoop;
+
+	close cur;
+    
+    update Objednavka set stav = 'stornována' where Objednavka.pk = pkObjednavky;
      
     commit;
 end //
