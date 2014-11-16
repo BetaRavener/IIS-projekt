@@ -55,7 +55,7 @@
         
         $sql = "UPDATE Odberatel SET meno=".$_POST['meno'].", priezvisko=".$_POST['priezvisko'].", adresaBydliska=".$_POST['adresaBydliska'].", dodaciaAdresa=".$_POST['dodaciaAdresa'].", email=".$_POST['email'].", telefonneCislo=".$_POST['telefonneCislo'].", odberNoviniek=".$odberNovinek." WHERE pk=".$_POST['odberatel_pk'];
         if ($db->query($sql) === TRUE) {
-            if($_POST['heslo'] != ""){
+            if($_POST['heslo'] != "null"){
                 $sql = "UPDATE Uzivatel SET heslo=".$_POST['heslo']." WHERE pk=".$_POST['pk'];
                 if ($db->query($sql) === TRUE) {
                     echo "<script>alert('změny provedeny'); window.location.href='user-edit.php';</script>";
@@ -64,6 +64,8 @@
                     echo "Error inserting record: " . $db->error;
                 }    
             }
+            else
+                header('Location: ' . $web_home . 'user-edit.php');
         } 
         else {
             echo "Error inserting record: " . $db->error;
@@ -71,18 +73,20 @@
         
         
     }
+    else if(array_key_exists('delete_account', $_POST))
+    {
+        $sql = "DELETE FROM Uzivatel WHERE pk=".$_POST['pk'];
+        if ($db->query($sql) === TRUE){
+            header('Location: ' . $web_home . 'logout.php');
+        } else {
+            echo "Error inserting record: " . $db->error;
+        }
+    }
     else
     {}
 
 
-
-//mysqli_insert_id($link)
-
 /*
-    opravit aby se nemenilo heslo kdyz je prazdne pri uprave 
-    kontrolovat objednavky pri mazani caju a varek
-    zrusit ucet
-    pridat varku kvezdicky
     objednavky:
     tabulka 1: objednavka.stav = "prijata"
     tabulka 2: objednavka.stav != "priajata" and objednavka.kosik = false

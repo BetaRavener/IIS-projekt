@@ -79,6 +79,7 @@
                 <input type='hidden' name="odberatel_pk" value='<?php echo $user['odberatel_pk'] ?>' readonly/>
                 <div class="button_center">
                     <input type="submit" name="send_changes" value="Změnit údaje" />
+                    <input type="submit" name="delete_account" value="Smazat váš účet!" />
                 </div>
             </form>
             

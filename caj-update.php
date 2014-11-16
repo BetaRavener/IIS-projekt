@@ -1,4 +1,5 @@
 <?php
+    header("Content-Type: text/html; charset=UTF-8");
     include_once 'db.php';
     
     if(array_key_exists('send_changes', $_POST))
@@ -68,7 +69,7 @@
     else if(array_key_exists('create_varka', $_POST))
     {
         $_POST['datumExpiracie'] = str_replace("-", ",", $_POST['datumExpiracie']);
-        $_POST['datumExpiracie'] = "str_to_date('".$value."', '%Y,%m,%d')";
+        $_POST['datumExpiracie'] = "str_to_date('".$_POST['datumExpiracie']."', '%Y,%m,%d')";
     
         $sql = "INSERT INTO Varka (pk, cena, dostupneMnozstvo, datumExpiracie, zlava, miestoNaSklade, caj_pk) VALUES (null, ".$_POST['cena'].", ".$_POST['dostupneMnozstvo'].", ".$_POST['datumExpiracie'].", ".($_POST['zlava']/100).", ".$_POST['miestoNaSklade'].", ".$_POST['caj_pk'].")";
         if ($db->query($sql) === TRUE) {
@@ -79,39 +80,84 @@
     }
     else if(array_key_exists('delete_caj', $_POST))
     {
+        $err_msg = "Následující čaje nemohly být obebrány z důvodu probíhajícího vyřizování objednávek.\\nČaje:";
+        $err = false;
         $cond = "";
         foreach($_POST as $key => $value)
         {
             if(substr($key, 0, -1) == "checkbox")
-            {
-                $cond .= $value . " OR ";   
+            {   
+                $selectQuery = 'SELECT DISTINCT Caj.nazov FROM (PolozkaObjednavky JOIN Varka ON PolozkaObjednavky.varka_pk = Varka.pk) RIGHT JOIN Caj ON Varka.caj_pk = Caj.pk WHERE Caj.pk = '.$value ;
+                $result = $db->query($selectQuery);
+                
+                if($result and $result->num_rows == 1)
+                {    
+                    $tea = $result->fetch_assoc();
+                    $err_msg .= " ".$tea['nazov'].", ";
+                    $err = true;
+                } 
+                else 
+                    $cond .= "pk=" . $value . " OR ";   
             }       
         }
-        $cond = substr($cond, 0, -4);
-        $sql = "DELETE FROM Caj WHERE pk=".$cond;
-        if ($db->query($sql) === TRUE) {
-            header('Location: ' . $web_home . 'caje-edit.php');
-        } else {
-            echo "Error inserting record: " . $db->error;
+        
+        if($err_msg != ""){
+            $err_msg = substr($err_msg, 0, -2);
         }
+        
+        if($cond != ""){
+            $cond = substr($cond, 0, -4);
+            $sql = "DELETE FROM Caj WHERE ".$cond;
+            if ($db->query($sql) === TRUE) {
+                if($err)
+                    echo "<script>alert(\"$err_msg\"); window.location.href='caje-edit.php';</script>";
+                else
+                    header('Location: ' . $web_home . 'caje-edit.php');
+            } else {
+                echo "Error inserting record: " . $db->error;
+            }
+        }
+        else{
+            if($err)
+                echo "<script>alert(\"$err_msg\"); window.location.href='caje-edit.php';</script>";    
+        }  
     }
     else if(array_key_exists('delete_varka', $_POST))
     {
+        $err_msg = "Některé várky tohoto čaje nemohly být obebrány z důvodu probíhajícího vyřizování objednávek.";
+        $err = false;
         $cond = "";
         foreach($_POST as $key => $value)
         {
             if(substr($key, 0, -1) == "checkbox")
             {
-                $cond .= $value . " OR ";   
+                $selectQuery = 'SELECT DISTINCT Varka.pk FROM PolozkaObjednavky JOIN Varka ON PolozkaObjednavky.varka_pk = Varka.pk WHERE Varka.pk = '.$value ;
+                $result = $db->query($selectQuery);
+                
+                if($result and $result->num_rows == 1)
+                { 
+                    $err = true;
+                } 
+                else 
+                    $cond .= "pk=" . $value . " OR ";   
             }       
         }
-        $cond = substr($cond, 0, -4);
-        $sql = "DELETE FROM Varka WHERE pk=".$cond;
-        if ($db->query($sql) === TRUE) {
-            header('Location: ' . $web_home . 'caj-edit.php?id=' . $_POST['teaId']);
-        } else {
-            echo "Error inserting record: " . $db->error;
+        
+        if($cond != ""){
+            $cond = substr($cond, 0, -4);
+            $sql = "DELETE FROM Varka WHERE ".$cond;
+            if ($db->query($sql) === TRUE) {
+                if($err)
+                    echo "<script>alert(\"$err_msg\"); window.location.href='caj-edit.php?id=".$_POST['teaId']."';</script>";
+                else
+                    header('Location: ' . $web_home . 'caj-edit.php?id=' . $_POST['teaId']);
+            } else {
+                echo "Error inserting record: " . $db->error;
+            }
         }
+        else
+            if($err)
+                echo "<script>alert(\"$err_msg\"); window.location.href='caj-edit.php?id=".$_POST['teaId']."';</script>";    
     }
     else
     {

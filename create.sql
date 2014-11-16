@@ -240,6 +240,8 @@ insert into Uzivatel (pk, meno, heslo, uuidPrihlasenia, odberatel_pk)
 values (null, 'test', 'test', null, 1);
 insert into Uzivatel (pk, meno, heslo, uuidPrihlasenia, odberatel_pk)
 values (null, 'test2', 'test2', null, 2);
+insert into Uzivatel (pk, meno, heslo, uuidPrihlasenia, odberatel_pk)
+values (null, 'admin', 'admin', null, 1);
 
 delimiter //
 
