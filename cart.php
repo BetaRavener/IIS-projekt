@@ -76,7 +76,9 @@ session_start();
             price = unitPrice * amount / 100;
             
             if(!checkAvailable(idx))
-                alert('mnozstvo');
+                amountElem.style.color = "red";
+            else
+                amountElem.style.color = "black";
         }
         document.getElementById('price' + idx).innerHTML = price.toString();
 
@@ -91,21 +93,63 @@ session_start();
         var amount = parseFloat(amountElem.value);
         var available = parseFloat(availableElem.innerHTML);
         
-        return amount <= available;
+        return amount > 0 && amount <= available;
     }
     
     function onBodyLoad()
     {
         var list = document.getElementsByTagName('tr');
         var arr = Array.prototype.slice.call(list, 0);
-        arr.forEach(function (tdElem) {
-            if (/^row.*$/.test(tdElem.id))
+        arr.forEach(function (trElem) {
+            if (/^row.*$/.test(trElem.id))
             {
-                if (!checkAvailable(parseInt(tdElem.id.slice(3))))
-                    alert('mnozstvo');
+                var amountElem = trElem.childNodes[3].childNodes[0];
+                if (!checkAvailable(parseInt(trElem.id.slice(3))))
+                    amountElem.style.color = "red";
+                else
+                    amountElem.style.color = "black";
             }
         });
         totalPrice();
+    }
+    
+    function getAmount(idx, params)
+    {
+        var amountElem = document.getElementById('amount' + idx);
+        return parseFloat(amountElem.value);
+    }
+    
+    function goOrder()
+    {
+        var list = document.getElementsByTagName('tr');
+        var arr = Array.prototype.slice.call(list, 0);
+        var params = "";
+        arr.forEach(function (tdElem) {
+            if (/^row.*$/.test(tdElem.id))
+            {
+                var idx = parseInt(tdElem.id.slice(3));
+                var amount = getAmount(idx);
+                if (params === "")
+                {
+                    params = idx + "=" + amount;
+                }
+                else
+                {
+                    params += "&" + idx + "=" + amount;
+                }
+            }
+        });
+        
+        if (params !== "")
+        {
+            var http = new XMLHttpRequest();
+            http.open("POST", '<?php echo $web_home . 'updateCart.php'?>', true);
+            http.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            http.send(params);
+            http.onload = function() {
+                document.location.href= '<?php echo $web_home . 'order.php' ?>';
+            }
+        }
     }
     
     </script>
@@ -140,7 +184,7 @@ session_start();
                     echo '<td>' . $row['nazov'] . '</td>';
                     echo '<td id=unitPrice' . $row['pk'] . '>' . $row['cena'] . '</td>';
                     echo '<td id="available' . $row['pk'] . '">' . $row['dostupneMnozstvo'] . '</td>';
-                    echo '<td> <input type=number id="amount' . $row['pk'] . '" value="' . $row['mnozstvo'] . '" oninput="amountChanged(' . $row['pk'] . ')"/> </td>';
+                    echo '<td><input type=number id="amount' . $row['pk'] . '" value="' . $row['mnozstvo'] . '" oninput="amountChanged(' . $row['pk'] . ')"/></td>';
                     echo '<td id=price' . $row['pk'] . '>' . floatval($row['cena']) * floatval($row['mnozstvo']) / 100 . '</td>';
                     echo '<td onclick=\'removeFromCart(' . $row['pk'] . ')\'><img src="obrazky/remove.png" class="removeimg"></td>';
                     echo '</tr>';
@@ -148,10 +192,8 @@ session_start();
                 
                 echo '</table>';
                 
-                echo 'Celková cena: <b id=totalPrice>0</b>';
-                echo '<form action="order.php">';
-                echo '<input type=submit value="Přejít na objednávku" />';
-                echo '</form>';
+                echo 'Celková cena: <b id=totalPrice>0</b><br/>';
+                echo '<input type="button" value="Přejít na objednávku" onclick="goOrder()"/>';
             }
             else
             {
