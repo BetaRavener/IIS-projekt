@@ -19,9 +19,8 @@
         
         <div id="content">
             <h2>Novinky</h2>
-        </div>
-        <div id="footer">
-        
+            20.11.2014 Do naší ponuky sme zařadili skvělé Mate IQ, vřele Vám doporučujeme jej vyskoušet. <br/>
+            18.11.2014 Vyprodal se nám čaj oblíbený čaj Gunpowder, na jeho naskladnení usilovne pracujeme.
         </div>
     </div>
 </body>
