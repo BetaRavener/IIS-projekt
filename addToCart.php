@@ -1,31 +1,28 @@
 <?php
 session_start();
-require_once 'db.php';
-require_once 'loginDetection.php';
+require_once 'mainInit.php';
 
-$batchId = $_POST['batchId'];
-$amount = $_POST['amount'];
-
-if ($_SESSION['userLogedIn'])
+if (array_key_exists('batchId', $_POST) and array_key_exists('amount', $_POST))
 {
-    $result = $db->query('call PridajDoKosika(' . $_SESSION['userId'] . ', ' . $batchId . ', ' . $amount . ')');
-    if ($result)
+    $batchId = $_POST['batchId'];
+    $amount = $_POST['amount'];
+
+    if ($_SESSION['userLogedIn'])
     {
-        echo 'pridane';
+        $result = $db->query('call PridajDoKosika(' . $_SESSION['userId'] . ', ' . $batchId . ', ' . $amount . ')');
+        if ($result)
+        {
+            echo 'Přidáno do košíku';
+        }
+        else
+        {
+            //TODO: Error
+            echo $db->error;
+        }
     }
     else
     {
-        //TODO: Error
-        echo $db->error;
+        echo 'Před nákupem se, prosím, přihlašte';
     }
-}
-else
-{
-    if (!array_key_exists('cart', $_SESSION))
-    {
-        $_SESSION['cart'] = array();
-    }
-    array_push($_SESSION['cart'], array('batchId' => $batchId, 'amount' => $amount));
-    echo 'pridane';
 }
 ?>

@@ -13,13 +13,8 @@ session_start();
 
 <body>
     <?php
-        header("Content-Type: text/html; charset=UTF-8");
-        include_once('config.php');
+        require_once('mainInit.php');
     ?>
-
-    <script>
-    
-    </script>
     
     <div id="main">
         <div id="header">

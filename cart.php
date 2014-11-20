@@ -13,7 +13,6 @@ session_start();
 
 <body onload='onBodyLoad()'>
     <?php
-        header("Content-Type: text/html; charset=UTF-8");
         include_once('mainInit.php');
     ?>
 
@@ -199,51 +198,6 @@ session_start();
             {
                 echo 'Košík je prázdny.';
             }
-            
-            // if (!array_key_exists('cart', $_SESSION) or empty($_SESSION['cart']))
-            // {
-                // echo 'Košík je prázdny.';
-            // }
-            // else
-            // {
-                // echo '<table id="teaTable">';
-                // echo '<tr>';
-                // echo '<th>Název čaju</th>';
-                // echo '<th>Množství</th>';
-                // echo '<th>Cena</th>';
-                // echo '</tr>';
-                // foreach ($_session['cart'] as $idx => $cartitem)
-                // {
-                    // $batchid = $cartitem['batchid'];
-                    // $amount = $cartitem['amount'];
-                    // $result = $db->query('select * from varka where varka.pk=' . $batchid);
-                    // if ($result->num_rows == 1)
-                    // {
-                        // $batch = $result->fetch_assoc();
-                        // $discount = floatval($batch['zlava']);
-                        // $price = floatval($batch['cena']);
-                        // $discountprice = $price * (1.0 - $discount);
-                        // $result = $db->query('select * from caj where caj.pk=' . $batch['caj_pk']);
-                        // $tea = $result->fetch_assoc();
-                        // echo '<tr id=row' . $idx . '>';
-                        // echo '<td>' . $tea['nazov'] . '</td>';
-                        // echo '<td>' . $amount . '</td>';
-                        // echo '<td>' . $discountprice * $amount . '</td>';
-                        // echo '<td onclick=\'removeFromCart(' . $idx . ')\'><img src="obrazky/remove.png" class="removeimg"></td>';
-                        // echo '</tr>';
-                    // }
-                    // else
-                    // {
-                        // //todo: remove
-                    // }
-                // }
-                
-                // echo '</table>';
-                
-                // echo '<form action="order.php">';
-                // echo '<input type=submit value="Přejít na objednávku" />';
-                // echo '</form>';
-            // }
             ?>
         </div>
         <div id="footer">

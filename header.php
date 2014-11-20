@@ -1,5 +1,8 @@
 <div id="header">
     <?php
+    if (!isset($mainInit))
+        exit(1);
+        
     require_once 'loginDetection.php';
 
     if ($userLogedIn) { ?>
@@ -9,7 +12,7 @@
                 <td class="label">Přihlášen jako:</td>
             </tr>
             <tr>
-                <td class="name"><?php echo $username ?></td>
+                <td class="name"><?php echo $nameSurname . ' (' . $username . ')' ?></td>
             </tr>
             <tr>
                 <td class="button"><input type="submit" name="login" value="Odhlásit" style="font-size:1em; font-family: fantasy" /></td>
