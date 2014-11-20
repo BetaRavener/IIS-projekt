@@ -6,16 +6,32 @@
     require_once 'loginDetection.php';
 
     if ($userLogedIn) { ?>
+    
+    <script>
+        function index()
+        {
+            document.location.href= '<?php echo $web_home . 'index.php' ?>';
+        }
+    </script>
+    
     <table class="login">
         <form name="login" method="POST" action="logout.php">
+            <?php if($username != "admin"){ ?>
             <tr>   
                 <td class="label">Přihlášen jako:</td>
             </tr>
             <tr>
                 <td class="name"><?php echo $nameSurname . ' (' . $username . ')' ?></td>
             </tr>
+            <?php } else { ?>
+            <tr>   
+                <td class="name">Vítejte v administračním systému</td>
+            </tr>
+            <br/>
+            <?php } ?>
             <tr>
                 <td class="button"><input type="submit" name="login" value="Odhlásit" style="font-size:1em; font-family: fantasy" /></td>
+            </tr>
         </form>
     </table>
     <?php } else {?>
@@ -56,7 +72,7 @@
                 <tr>
                     <td colspan="3" class="button">
                         <input type="submit" name="login" value="Přihlásit" style="font-size:1em; font-family: fantasy" />
-                        <a href="registration.php"><button type="button">Registrace</button></a>
+                        <input type="button" onClick="<?php echo 'javascript:location.href = \'' . $web_home . 'registration.php\'' ?>" value="Registrace" />
                     </td>
                 </tr>
             </form>

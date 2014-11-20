@@ -14,6 +14,8 @@ session_start();
 <body onload='onBodyLoad()'>
     <?php
         include_once('mainInit.php');
+        if (!$userLogedIn)
+            exit(1);
     ?>
 
     <script>

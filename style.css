@@ -65,9 +65,11 @@ body
 
 #menu table
 {
+    table-layout: fixed;
+    padding: 0px;
     width: 100%;
     background-color: black;
-    margin-bottom: 1em; 
+    margin-bottom: 5px; 
 }
 
 #menu td
@@ -95,7 +97,8 @@ body
 }
 
 #content
-{ 
+{
+    margin-top: 2em;
     padding: 1em;
     border: 2px solid black;
 }

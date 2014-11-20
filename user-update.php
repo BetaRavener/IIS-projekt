@@ -48,7 +48,7 @@
             }       
         }
         
-        if (array_key_exists('odberNovinek', $_POST))
+        if (array_key_exists('odberNoviniek', $_POST))
              $odberNovinek = 1;
         else
              $odberNovinek = 0;

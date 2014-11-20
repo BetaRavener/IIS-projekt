@@ -4,15 +4,15 @@ if (!isset($mainInit))
 ?>
 
 <div id="menu">
-  <table>
-    <tr>   
-        <td>O nás</td>
-        <td><a href="caje.php">Čaje</a></td>
-        <td>Kontakty</td>
-    </tr>
-
+    <table>
+        <tr>   
+            <td><a href="caje.php">Čaje</a></td>
+            <td><a href="contacts.php">Kontakty</a></td>
+        </tr>
+    </table>
+    
 <?php if ($userLogedIn) { 
-
+    echo '<table>';
     if ($username != "admin") {
         echo "<tr>";   
         echo "<td><a href='orders.php'>Objednávky</a></td>";
@@ -24,16 +24,13 @@ if (!isset($mainInit))
         echo "<tr>";   
         echo "<td><a href='caje-edit.php'>Editovat čaje</a></td>";
         echo "<td><a href='objednavka-edit.php'>Editovat objednávky</a></td>";
-        echo "<td>Editovat účty</td>";
         echo "</tr>";
         echo "<tr>";
         echo "<td><a href='customers.php'>Odběratelé</a></td>";
         echo "<td><a href='mail.php'>Zaslat novinku</a></td>";
-        echo "<td></td>";
         echo "</tr>";
     }
+    echo '</table>';
 } ?>
-
-  </table>
 </div>
 
