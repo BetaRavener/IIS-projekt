@@ -53,7 +53,26 @@
             <form name="add" method="POST" action="caj-update.php" onsubmit="return varkaadd_checkvalues()" id="add">
                 <input type='hidden' name='caj_pk' value='<?php echo $teaId; ?>' readonly/> <br />
                 Dostupné množství: <input class='edit' type='number' name='dostupneMnozstvo' value='' min='0' max='1000000' step='1'/> <br />
-                Datum expirace: <input class='edit' type='date' name='datumExpiracie' value=''/><span id="datum_star">*</span> <br />
+                Datum expirace: <input id="date" class='edit' type='date' name='datumExpiracie' value='' /><span id="datum_star">*</span> <br />
+                
+                <script type="text/javascript">
+                    
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth()+1; //January is 0!
+                    
+                    var yyyy = today.getFullYear()+2;
+                    if(dd<10){
+                        dd='0'+dd
+                    } 
+                    if(mm<10){
+                        mm='0'+mm
+                    } 
+                    var today = yyyy+'-'+mm+'-'+dd;
+                    document.getElementById("date").value = today;
+                    
+                </script>
+                
                 Cena: <input class='edit' type='number' name='cena' value='' min='0' max='1000' step='0.1'/><span id="cena_star">*</span> <br />
                 Sleva: <input class='edit' type='number' name='zlava' value='' min='0' max='100' step='0.1'/><span id="sleva_star">*</span> <br />
                 Místo na skladě: <input class='edit' type='number' name='miestoNaSklade' value='' min='0' max='1000' step='1'/> <br />
