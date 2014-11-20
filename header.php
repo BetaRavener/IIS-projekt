@@ -2,7 +2,8 @@
     <?php
     if (!isset($mainInit))
         exit(1);
-        
+    
+    session_start();    
     require_once 'loginDetection.php';
 
     if ($userLogedIn) { ?>
@@ -27,10 +28,10 @@
             <tr>   
                 <td class="name">Vítejte v administračním systému</td>
             </tr>
-            <br/>
+            <br />
             <?php } ?>
             <tr>
-                <td class="button"><input type="submit" name="login" value="Odhlásit" style="font-size:1em; font-family: fantasy" /></td>
+                <td class="button"><input type="submit" name="login" value="Odhlásit" style="font-size:1em; font-family: Impact, Charcoal, sans-serif" /></td>
             </tr>
         </form>
     </table>
@@ -71,8 +72,8 @@
                 </tr>
                 <tr>
                     <td colspan="3" class="button">
-                        <input type="submit" name="login" value="Přihlásit" style="font-size:1em; font-family: fantasy" />
-                        <input type="button" onClick="<?php echo 'javascript:location.href = \'' . $web_home . 'registration.php\'' ?>" value="Registrace" />
+                        <input type="submit" name="login" value="Přihlásit" style="font-size:1em; font-family: Impact, Charcoal, sans-serif" />
+                        <input type="button" onClick="<?php echo 'javascript:location.href = \'' . $web_home . 'registration.php\'' ?>" value="Registrace" style="font-size:1em; font-family: Impact, Charcoal, sans-serif" />
                     </td>
                 </tr>
             </form>
