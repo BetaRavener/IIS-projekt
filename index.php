@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>Distributor čajů</title>
+<title>Distributor čajů</title> 
 <link rel="stylesheet" href="style.css" type="text/css" >
 </head>
 
