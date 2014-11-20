@@ -71,13 +71,16 @@
                     array_push($types, $type);
             }
             
-            echo '<select id="typeFilter" onchange="filter()">';
+            
+            echo 'Název: <input type="text" id="nameFilter" oninput="filter()">';
+            echo 'Druh: <select id="typeFilter" onchange="filter()">';
             foreach ($types as $type)
             {
                 echo '<option value="' . $type . '">' . (empty($type) ? 'Všechny' : $type) . '</option>';
             }
             echo '</select>';
-            echo '<input type="text" id="nameFilter" oninput="filter()">'
+            
+              
             ?>
             </div>
             

@@ -1,4 +1,4 @@
-USE xsevci50;
+USE xcizek12;
 SET NAMES 'utf8';
 
 /***************************************************************************/
@@ -219,9 +219,17 @@ values (null, 88, 6039, str_to_date('2015,09,01', '%Y,%m,%d'), 0.1, 5, 6);
 
 /* Naplnenie tabulky Objednavky*/
 insert into Objednavka (pk, stav, datumPrijatia, stornoPoplatok, kosik, odberatel_pk) 
-values (null, null, null, null, true, 1);
+values (null, 'prijata', str_to_date('2014,11,14', '%Y,%m,%d'), 0, true, 1);
 insert into Objednavka (pk, stav, datumPrijatia, stornoPoplatok, kosik, odberatel_pk) 
-values (null, null, null, null, true, 2);
+values (null, 'stornovana', str_to_date('2014,10,14', '%Y,%m,%d'), 0, true, 2);
+insert into Objednavka (pk, stav, datumPrijatia, stornoPoplatok, kosik, odberatel_pk) 
+values (null, 'prijata', str_to_date('2014,11,14', '%Y,%m,%d'), 0, false, 1);
+insert into Objednavka (pk, stav, datumPrijatia, stornoPoplatok, kosik, odberatel_pk) 
+values (null, 'stornovana', str_to_date('2014,10,14', '%Y,%m,%d'), 0, false, 2);
+insert into Objednavka (pk, stav, datumPrijatia, stornoPoplatok, kosik, odberatel_pk) 
+values (null, 'zrusena', str_to_date('2014,10,12', '%Y,%m,%d'), 0, false, 2);
+insert into Objednavka (pk, stav, datumPrijatia, stornoPoplatok, kosik, odberatel_pk) 
+values (null, 'vybavena', str_to_date('2014,10,11', '%Y,%m,%d'), 0, false, 2);
 
 /* Naplnenie tabulky PolozkaObjednavky*/
 insert into PolozkaObjednavky (pk, objednavka_pk, objednaneMnozstvo, cena, varka_pk) 

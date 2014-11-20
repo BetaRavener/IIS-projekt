@@ -131,13 +131,20 @@ h1
     width: 90%;
 }
 
+#teaTable .no_edit input[type="text"], textarea {
+
+    text-align: center;
+    border: none;
+}
+
 .teaTableRow
 {
     background-color: #ffffff;
-}
+} 
 .teaTableRow td
 {
     text-align: center;
+    cursor: default;
 }
 
 .teaTableRowHover
@@ -148,6 +155,17 @@ h1
 .teaTableRowHover td
 {
     text-align: center;
+    cursor: default;
+}
+
+.blue
+{
+    background-color: #b0c4de;
+}
+
+.hideable
+{
+    display: none;
 }
 
 .customerTableRow
@@ -201,3 +219,32 @@ h1
 :-ms-input-placeholder { /* Internet Explorer 10+ */
    color:    red;
 }
+
+#emailContent
+{
+    border: 1px solid black;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    text-align: left;
+}
+
+#emailField
+{
+    margin-left: 1em;
+}
+
+#nameFilter
+{
+    margin-right: 1em;
+}
+
+#filter
+{
+    width: 100%;
+    text-align: center;
+    padding-bottom: 1em;
+}
+
+
+
+

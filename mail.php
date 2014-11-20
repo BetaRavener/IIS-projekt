@@ -71,17 +71,17 @@ session_start();
             ?>
             
             <form action="mail-send.php" method="POST">
-            Adresát
+            Adresát:
             <select id="selectField" name="select" onchange="emailVisibility()">
                 <option value="0" <?php if ($postEmail === "") echo 'selected="selected"'; ?>>Odběratelé novinek</option>
                 <option value="1" <?php if ($postEmail !== "") echo 'selected="selected"'; ?>>Konkrétni odběratel</option>
             </select>
             <?php //Check mail format ?>
-            <input id="emailField" type="text" name="email" value="<?php echo $postEmail?>" oninput="emailValidity()"/><br/>
-            <input type="text" name="content" value=""/><br/>
+            <span id="emailField">E-mail:<input type="text" name="email" value="<?php echo $postEmail?>" oninput="emailValidity()"/></span><br />
+            <textarea id="emailContent" type="text" name="content" value="" cols=100 rows=10 autofocus="autofocus"></textarea><br />
             <input id="submitField" type="submit" value="Odeslat">
             </form>
-            <br/>
+            <br />
                         
         </div>
         <div id="footer">

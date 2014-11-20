@@ -65,7 +65,9 @@
             
             <div id="filter">
             <?php
-            echo '<input type="text" id="nameFilter" oninput="filter()">'
+            
+            echo 'Hledat: <input type="text" id="nameFilter" oninput="filter()">';
+            
             ?>
             </div>
             
