@@ -30,6 +30,8 @@ session_start();
             {
                 $supplier = $result->fetch_assoc();
                 echo '<h2>' . $supplier['nazov'] . '</h2>';
+                if (!empty($supplier['weblink']))
+                    echo '<a href=http://' . $supplier['weblink'] . '>Přejít na web dodavatele</a>';
             }
             else
             {

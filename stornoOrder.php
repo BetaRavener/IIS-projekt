@@ -44,11 +44,9 @@ session_start();
     </script>
     
     <div id="main">
-        <div id="header">
-            <?php include 'header.php' ?>
-        </div>
-
+        <?php include 'header.php' ?>
         <?php include 'menu.php' ?>
+        
         <div id="content">
             <h2>Stornování objednávky</h2>
             <?php
@@ -64,7 +62,6 @@ session_start();
                 
                 if (isOrderNotProcessed($orderState))
                 {
-                    echo 'ID objednávky: ' . $orderId . '<br/>';
                     echo 'Stav objednávky: ' . $orderState . '<br/>';
                     echo 'Datum přijetí: ' . $row['datumPrijatia'] . '<br/>';
                     echo 'Celková cena objednávky: ' . $orderPrice . '<br/>';

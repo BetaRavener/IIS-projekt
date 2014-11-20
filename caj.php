@@ -49,7 +49,7 @@ session_start();
                 Druh: <?php echo $tea['druh'] ?> <br />
                 Krajina původu: <?php echo $tea['krajinaPovodu'] ?> <br />
                 Kvalita: <?php echo empty($tea['kvalita']) ? 'Základní' : $tea['kvalita'] ?> <br />
-                Chut: <?php echo $tea['chut'] ?> <br />
+                Chuť: <?php echo $tea['chut'] ?> <br />
                 Lůhovací doba: <?php echo $tea['dobaLuhovania'] ?> <br />
                 Zdravotní ůčinky: <?php echo empty($tea['zdravotneUcinky']) ? 'Žádné' : $tea['zdravotneUcinky'] ?> <br />
                 Čajová oblast: 
@@ -68,19 +68,23 @@ session_start();
                 ?> <br />
                 
                 <h3> Dostupné várky </h3>
-                <table id="teaTable">
-                <tr>
-                    <th>Id</th>
-                    <th>Dostupné množství (g)</th>
-                    <th>Datum expirace</th>
-                    <th>Cena (100g)</th>
-                    <th>Množství (g)</th>
-                </tr>
-                <?php
-                    $result = $db->query('SELECT * FROM Varka WHERE Varka.caj_pk='. $teaId);
+                
+                <?php 
+                $result = $db->query('SELECT * FROM Varka WHERE Varka.caj_pk='. $teaId);
+                if ($result and $result->num_rows > 0)
+                {
+                ?>
+                    <table id="teaTable">
+                    <tr>
+                        <th>Dostupné množství (g)</th>
+                        <th>Datum expirace</th>
+                        <th>Cena (100g)</th>
+                        <th>Množství (g)</th>
+                    </tr>
+                    
+                    <?php
                     while($row = $result->fetch_assoc()) {
                         echo '<tr class="teaTableRow">';
-                        echo '<td>' . $row['pk'] . '</td>';
                         echo '<td>' . $row['dostupneMnozstvo'] . '</td>';
                         echo '<td>' . $row['datumExpiracie'] . '</td>';
                         $discount = floatval($row['zlava']);
@@ -98,6 +102,11 @@ session_start();
                         echo '<td onClick=\'addToCart(' . $row['pk'] . ')\'><img src="obrazky/cart.png" class="cartImg"></td>';
                         echo '</tr>';
                     }
+                }
+                else
+                {
+                    echo 'Pro tento čaj nejsou momentálně dostupné žádne várky.';
+                }
                 ?>
             </table>
             <?php

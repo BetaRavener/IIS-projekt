@@ -1,3 +1,8 @@
+<?php 
+if (!isset($mainInit))
+    exit(1);
+?>
+
 <div id="menu">
   <table>
     <tr>   
