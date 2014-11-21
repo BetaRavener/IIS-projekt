@@ -1,4 +1,5 @@
 <?php
+    session_save_path("tmp/");
     session_start();
     
     if (array_key_exists('username', $_POST) and array_key_exists('password', $_POST))

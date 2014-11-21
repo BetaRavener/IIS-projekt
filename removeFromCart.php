@@ -1,6 +1,8 @@
 <?php
+session_save_path("tmp/");
 session_start();
 require_once 'mainInit.php';
+require_once 'checkUser.php';
 
 if (array_key_exists('cartItemId', $_POST))
 {

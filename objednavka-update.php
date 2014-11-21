@@ -1,6 +1,6 @@
 <?php
     header("Content-Type: text/html; charset=UTF-8");
-    include_once 'db.php';
+    require_once 'db.php';
     
     if(array_key_exists('send_changes', $_POST))
     {

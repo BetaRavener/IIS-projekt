@@ -1,4 +1,5 @@
 ﻿<?php
+session_save_path("tmp/");
 session_start();
 ?>
 
@@ -13,7 +14,8 @@ session_start();
 
 <body>
     <?php
-        require_once('mainInit.php');
+        require_once 'mainInit.php';
+        require_once 'checkUser.php';
     ?>
     
     <div id="main">
@@ -74,40 +76,6 @@ session_start();
             {
                 echo 'Nemožné sestavit objednávku, košík je prázdny.';
             }
-            // else
-            // {
-                // echo '<table id="orderTable">';
-                // echo '<tr>';
-                // echo '<th>Název čaju</th>';
-                // echo '<th>Množství (g)</th>';
-                // echo '<th>Cena</th>';
-                // echo '</tr>';
-                // foreach ($_SESSION['cart'] as $idx => $cartItem)
-                // {
-                    // $batchId = $cartItem['batchId'];
-                    // $amount = $cartItem['amount'];
-                    // $result = $db->query('SELECT * FROM Varka WHERE Varka.pk=' . $batchId);
-                    // if ($result->num_rows == 1)
-                    // {
-                        // $batch = $result->fetch_assoc();
-                        // $discount = floatval($batch['zlava']);
-                        // $price = floatval($batch['cena']);
-                        // $discountPrice = $price * (1.0 - $discount);
-                        // $result = $db->query('SELECT * FROM Caj WHERE Caj.pk=' . $batch['caj_pk']);
-                        // $tea = $result->fetch_assoc();
-                        // echo '<tr id=row' . $idx . '>';
-                        // echo '<td>' . $tea['nazov'] . '</td>';
-                        // echo '<td>' . $amount . '</td>';
-                        // echo '<td>' . $discountPrice * $amount . '</td>';
-                        // echo '</tr>';
-                    // }
-                    // else
-                    // {
-                        // //TODO: Remove
-                    // }
-                // }
-                // echo '</table>';
-            // }
             ?>
         </div>
         <div id="footer">

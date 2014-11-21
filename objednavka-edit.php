@@ -1,4 +1,5 @@
 <?php
+session_save_path("tmp/");
 session_start();
 ?>
 
@@ -15,6 +16,7 @@ session_start();
 
     <?php
         require_once 'mainInit.php';
+        require_once 'checkAdmin.php';
     ?>
     
     <script type="text/javascript">
@@ -77,7 +79,7 @@ session_start();
                     echo "<th>Stav</th>";
                     echo "</tr>";
                     
-                    $result = $db->query('SELECT Objednavka.pk, stav, datumPrijatia, meno, priezvisko, dodaciaAdresa FROM Objednavka INNER JOIN Odberatel ON Objednavka.odberatel_pk=Odberatel.pk WHERE Objednavka.stav=\'prijata\' OR Objednavka.stav=\'stornovana\'');
+                    $result = $db->query('SELECT Objednavka.pk, stav, datumPrijatia, meno, priezvisko, dodaciaAdresa FROM Objednavka INNER JOIN Odberatel ON Objednavka.odberatel_pk=Odberatel.pk WHERE Objednavka.stav=\'přijatá\' OR Objednavka.stav=\'stornována\'');
                     while($row = $result->fetch_assoc()) {
                         
                         $result1 = $db->query('SELECT PolozkaObjednavky.pk, objednaneMnozstvo, miestoNaSklade, nazov FROM (PolozkaObjednavky INNER JOIN Varka ON PolozkaObjednavky.varka_pk=Varka.pk) INNER JOIN Caj ON Varka.caj_pk=Caj.pk WHERE PolozkaObjednavky.objednavka_pk='.$row['pk']);
@@ -139,7 +141,7 @@ session_start();
                     echo "<th>Stav</th>";
                     echo "</tr>";
                     
-                    $result = $db->query('SELECT Objednavka.pk, stav, datumPrijatia, meno, priezvisko, dodaciaAdresa FROM Objednavka INNER JOIN Odberatel ON Objednavka.odberatel_pk=Odberatel.pk WHERE Objednavka.stav!=\'prijata\' AND Objednavka.stav!=\'stornovana\''); //AND Objednavka.kosik=0
+                    $result = $db->query('SELECT Objednavka.pk, stav, datumPrijatia, meno, priezvisko, dodaciaAdresa FROM Objednavka INNER JOIN Odberatel ON Objednavka.odberatel_pk=Odberatel.pk WHERE Objednavka.stav!=\'přijatá\' AND Objednavka.stav!=\'stornována\''); //AND Objednavka.kosik=0
                     while($row = $result->fetch_assoc()) {
                         
                         $result1 = $db->query('SELECT PolozkaObjednavky.pk, objednaneMnozstvo, miestoNaSklade, nazov FROM (PolozkaObjednavky INNER JOIN Varka ON PolozkaObjednavky.varka_pk=Varka.pk) INNER JOIN Caj ON Varka.caj_pk=Caj.pk WHERE PolozkaObjednavky.objednavka_pk='.$row['pk']);

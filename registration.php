@@ -11,6 +11,8 @@
 
     <?php
         require_once 'mainInit.php';
+        if ($userLogedIn or $isAdmin)
+            exit(2);
     ?>
     
     <script type="text/javascript">

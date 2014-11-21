@@ -1,4 +1,5 @@
 <?php
+session_save_path("tmp/");
 session_start();
 ?>
 
@@ -14,6 +15,7 @@ session_start();
 <body>
     <?php
         require_once 'mainInit.php';
+        require_once 'checkAdmin.php';
     ?>
         
     <div id="main">
@@ -24,8 +26,12 @@ session_start();
             
             <?php
             //TODO: Exists?
-            $mode = $_POST['select'];
-            $content = $_POST['content'];
+            if (array_key_exists('select', $_POST) and array_key_exists('content', $_POST))
+            {
+                $mode = $_POST['select'];
+                $content = $_POST['content'];
+            }
+            else
             $recipients = "";
             if ($mode == 0)
             {

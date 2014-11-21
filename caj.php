@@ -1,4 +1,5 @@
 <?php
+session_save_path("tmp/");
 session_start();
 ?>
 
@@ -79,7 +80,9 @@ session_start();
                         <th>Dostupné množství (g)</th>
                         <th>Datum expirace</th>
                         <th>Cena (100g)</th>
+                        <?php if (!$isAdmin) { ?>
                         <th>Množství (g)</th>
+                        <?php } ?>
                     </tr>
                     
                     <?php
@@ -98,8 +101,10 @@ session_start();
                         {
                             echo '<td>' . $price . '</td>';
                         }
-                        echo '<td><input type=number id="amount' . $row['pk'] . '" value="0" /></td>';
-                        echo '<td onClick=\'addToCart(' . $row['pk'] . ')\'><img src="obrazky/cart.png" class="cartImg"></td>';
+                        if (!$isAdmin) {
+                            echo '<td><input type=number id="amount' . $row['pk'] . '" value="0" /></td>';
+                            echo '<td onClick=\'addToCart(' . $row['pk'] . ')\'><img src="obrazky/cart.png" class="cartImg"></td>';
+                        }
                         echo '</tr>';
                     }
                 }

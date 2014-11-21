@@ -1,4 +1,5 @@
 ﻿<?php
+session_save_path("tmp/");
 session_start();
 ?>
 
@@ -13,9 +14,8 @@ session_start();
 
 <body onload='onBodyLoad()'>
     <?php
-        include_once('mainInit.php');
-        if (!$userLogedIn)
-            exit(1);
+        include_once 'mainInit.php';
+        require_once 'checkUser.php';
     ?>
 
     <script>

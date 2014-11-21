@@ -25,6 +25,7 @@
 
     <?php
         require_once 'mainInit.php';
+        require_once 'checkAdmin.php';
     ?>
     
     <div id="main">

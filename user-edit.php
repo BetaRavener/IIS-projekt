@@ -11,6 +11,7 @@
 
     <?php
         require_once 'mainInit.php';
+        require_once 'checkUser.php';
     ?>
     
     <script type="text/javascript">

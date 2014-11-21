@@ -1,4 +1,5 @@
 ﻿<?php
+session_save_path("tmp/");
 session_start();
 ?>
 
@@ -14,6 +15,7 @@ session_start();
 <body>
     <?php
         require_once 'mainInit.php';
+        require_once 'checkUser.php';
         require_once 'utility.php';
     ?>
     

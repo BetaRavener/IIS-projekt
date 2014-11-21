@@ -1,5 +1,6 @@
 <?php
     $userLogedIn = isset($_COOKIE['logged']);
+    $isAdmin = false;
     $userId = -1;
     if ($userLogedIn)
     {
@@ -13,9 +14,11 @@
             $nameSurname = $user['meno'] . ' ' . $user['priezvisko'];
             $username = $user['username'];
             $_SESSION['userId'] = $userId;
+            $isAdmin = $username === "admin";
         }
         else
             $userLogedIn = false;
     }
     $_SESSION['userLogedIn'] = $userLogedIn;
+    $_SESSION['isAdmin'] = $isAdmin;
 ?>

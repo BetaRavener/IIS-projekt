@@ -1,4 +1,5 @@
 <?php
+session_save_path("tmp/");
 session_start();
 ?>
 
@@ -14,21 +15,25 @@ session_start();
 <body onload="onLoad()">
     <?php
         require_once 'mainInit.php';
+        require_once 'checkAdmin.php';
     ?>
     
     <script>
     function emailVisibility()
     {
         var selectElem = document.getElementById("selectField");
-        var emailElem = document.getElementById("emailField");
+        var emailElemSpan = document.getElementById("emailFieldSpan");
+        var submitElem = document.getElementById("submitField");
+        
         var selectedIdx = selectElem.selectedIndex;
         if (selectedIdx === 0)
         {
-            emailElem.style.display = "none";
+            emailElemSpan.style.display = "none";
+            submitElem.disabled = false;
         }
         else
         {
-            emailElem.style.display = "";
+            emailElemSpan.style.display = "";
             emailValidity();
         }
     }
@@ -77,7 +82,7 @@ session_start();
                 <option value="1" <?php if ($postEmail !== "") echo 'selected="selected"'; ?>>Konkrétni odběratel</option>
             </select>
             <?php //Check mail format ?>
-            <span id="emailField">E-mail:<input type="text" name="email" value="<?php echo $postEmail?>" oninput="emailValidity()"/></span><br />
+            <span id="emailFieldSpan">E-mail:<input id="emailField" type="text" name="email" value="<?php echo $postEmail?>" oninput="emailValidity()"/></span><br />
             <textarea id="emailContent" type="text" name="content" value="" cols=100 rows=10 autofocus="autofocus"></textarea><br />
             <input id="submitField" type="submit" value="Odeslat">
             </form>

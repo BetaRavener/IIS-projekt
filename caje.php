@@ -10,7 +10,7 @@
 <body>
 
     <?php
-        require_once 'mainInit.php';   
+        require_once 'mainInit.php';
     ?>
 
     <script>
