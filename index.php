@@ -12,7 +12,7 @@
 
 <body>
 
-    <?php
+    <?php                             
         require_once 'mainInit.php';
     ?>
     

@@ -9,10 +9,10 @@
         for ($i = 0; $i < $_POST['count']; $i++) {
             if(array_key_exists('checkbox'.$i, $_POST))
             {
-                if($_POST['stav'.$i] == 'prijata')
-                    $sql = "UPDATE Objednavka SET stav='vybavena' WHERE pk=".$_POST['checkbox'.$i];
-                else if($_POST['stav'.$i] == 'stornovana')
-                    $sql = "UPDATE Objednavka SET stav='zrusena' WHERE pk=".$_POST['checkbox'.$i];
+                if($_POST['stav'.$i] == 'přijatá')
+                    $sql = "UPDATE Objednavka SET stav='vybavená' WHERE pk=".$_POST['checkbox'.$i];
+                else if($_POST['stav'.$i] == 'stornována')
+                    $sql = "UPDATE Objednavka SET stav='zrušená' WHERE pk=".$_POST['checkbox'.$i];
                 else{}
                 
                 if ($db->query($sql) === TRUE) {
