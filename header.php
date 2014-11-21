@@ -2,8 +2,7 @@
     <?php
     if (!isset($mainInit))
         exit(1);
-    
-    session_start();    
+        
     require_once 'loginDetection.php';
 
     if ($userLogedIn) { ?>
@@ -79,5 +78,5 @@
             </form>
         </table>
     <?php } ?> 
-    <h1>Prodejna čajů Tomáš a Ivan</h1> 
+    <h1><a href="index.php">Prodejna čajů Tomáš a Ivan</a></h1> 
 </div>

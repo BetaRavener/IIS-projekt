@@ -120,6 +120,11 @@ h1
     font-size: 3em;
     font-family: Impact, Charcoal, sans-serif;
 }
+h1 a
+{
+    color: black;
+    text-decoration: none;
+}
 
 #teaTable
 {
