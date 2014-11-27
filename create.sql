@@ -114,10 +114,10 @@ create table PolozkaObjednavky(
 
 create table Uzivatel(
   pk INT NOT NULL AUTO_INCREMENT,
-  meno VARCHAR(30) NOT NULL,
+  meno VARCHAR(30) UNIQUE NOT NULL,
   heslo VARCHAR(30) NOT NULL,
   uuidPrihlasenia INT,
-  odberatel_pk INT NOT NULL,
+  odberatel_pk INT,
   PRIMARY KEY(pk)
 );
 
@@ -251,7 +251,7 @@ values (null, 'test', 'test', null, 1);
 insert into Uzivatel (pk, meno, heslo, uuidPrihlasenia, odberatel_pk)
 values (null, 'test2', 'test2', null, 2);
 insert into Uzivatel (pk, meno, heslo, uuidPrihlasenia, odberatel_pk)
-values (null, 'admin', 'admin', null, 1);
+values (null, 'admin', 'admin', null, null);
 
 delimiter //
 

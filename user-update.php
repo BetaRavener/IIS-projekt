@@ -25,7 +25,8 @@
     
         } 
         else {
-            echo "Error inserting record: " . $db->error;
+            echo "Některá pole byla špatně vyplněna<br/>";
+            //echo "Error inserting record: " . $db->error;
         }
         
         $sql = "INSERT INTO Uzivatel VALUES (null, ".$_POST['u_meno'].", ".$_POST['heslo'].", null, ".mysqli_insert_id($db).")";
@@ -33,7 +34,8 @@
             echo "<script>alert('účet vytvořen'); window.location.href='index.php';</script>";       
         } 
         else {
-            echo "Error inserting record: " . $db->error;
+            echo "Účet již existuje";
+            //echo "Error inserting record: " . $db->error;
         }
     }
     else if(array_key_exists('send_changes', $_POST))

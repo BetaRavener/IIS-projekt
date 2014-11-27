@@ -1,7 +1,7 @@
 <?php
     if (!array_key_exists('isAdmin', $_SESSION) or $_SESSION['isAdmin'])
-        exit(2);
+        header('Location: ' . $web_home . 'index.php');
         
     if (!array_key_exists('userLogedIn', $_SESSION) or !$_SESSION['userLogedIn'])
-        exit(2);
+        header('Location: ' . $web_home . 'index.php');
 ?>

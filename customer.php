@@ -25,6 +25,12 @@ session_start();
         <div id="content">
             <?php
             $customerId = -1;
+            if (array_key_exists('removeUserId', $_POST) and array_key_exists('customerId', $_POST))
+            {
+                $db->query('DELETE FROM Uzivatel WHERE Uzivatel.pk =' . $_POST['removeUserId']);
+                $customerId = $_POST['customerId'];
+            }
+            
             if (array_key_exists('id', $_GET))
                 $customerId = $_GET['id'];
             $result = $db->query('SELECT * FROM Odberatel AS odb WHERE odb.pk=' . $customerId);
@@ -44,6 +50,21 @@ session_start();
                     echo '<input type="hidden" name="email" value="' . $customer['email'] . '"/>';
                     echo '<input type="submit" value="Informovat pomocí emailu"/>';
                     echo '</form>';
+                }
+
+                $result = $db->query('SELECT u.pk FROM (Uzivatel AS u LEFT JOIN Odberatel AS odb ON u.odberatel_pk = odb.pk) WHERE odb.pk =' . $customerId);
+                if ($result and $result->num_rows == 1)
+                {
+                    $customerAccount = $result->fetch_assoc();
+                    echo '<form action="customer.php" method="POST">';
+                    echo '<input type="hidden" name="customerId" value="' . $customerId . '"/>';
+                    echo '<input type="hidden" name="removeUserId" value="' . $customerAccount['pk'] . '"/>';
+                    echo '<input type="submit" value="Odstránit užívateli účet"/>';
+                    echo '</form>';
+                }
+                else
+                {
+                    echo $db->error;
                 }
                 ?>
             <?php

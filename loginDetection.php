@@ -7,7 +7,7 @@
         require_once 'db.php';
     
         $userId = $_COOKIE['logged'];
-        $result = $db->query('SELECT u.meno as username, o.meno, o.priezvisko FROM Uzivatel AS u JOIN Odberatel AS o on u.odberatel_pk = o.pk WHERE u.pk=' . $userId);
+        $result = $db->query('SELECT u.meno as username, o.meno, o.priezvisko FROM Uzivatel AS u LEFT JOIN Odberatel AS o on u.odberatel_pk = o.pk WHERE u.pk=' . $userId);
         if ($result and $result->num_rows == 1)
         {
             $user = $result->fetch_assoc();
