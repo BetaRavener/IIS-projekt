@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0051)http://www.stud.fit.vutbr.cz/~xsevci50/IIS/doc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-2">
+    
+    <title>Distributor čajů</title> 
+    <style type="text/css">
+        table { border-collapse: collapse; }
+        td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+        dt { font-weight: bold; margin-top: 0.5em; }
+    </style>
+</head>
+<body>
+
+<h1>43. Distributor čaje</h1> <!-- Nahradte názvem svého zadání -->
+
+<dl>
+	<dt>Autoři</dt>
+	<dd>Ivan Ševčík
+	    <a href="mailto:xsevci50@stud.fit.vutbr.cz">xsevci50@stud.fit.vutbr.cz</a> -
+		Databázový systém a připojení, správa košíku a vytvoření objednávky,
+        filtrováni v tabulkách, systém pro zasílání novinek, 
+        správa přístupnosti stránek různými rolemi.
+	</dd>
+	<dd>Tomáš Čížek
+	    <a href="mailto:xcizek12@stud.fit.vutbr.cz">xcizek12@stud.fit.vutbr.cz</a> - 
+		Správa užívatelů, přihlášení a registrace, editace záznamú databáze - 
+        účtů, čajů a várek, správa objednávek, grafika a rozložení prvků.
+        
+	</dd>
+	<dt>URL aplikace</dt>
+	<dd><a href="http://www.stud.fit.vutbr.cz/~xsevci50/IIS/">http://www.stud.fit.vutbr.cz/~xsevci50/IIS</a></dd>
+</dl>
+
+<h2>Uživatelé systému pro testování</h2>
+<table>
+<tbody><tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+<tr><td>admin</td><td>admin</td><td>Administrátor / Distributor</td></tr>
+<tr><td>test</td><td>test</td><td>Zákazník</td></tr>
+<tr><td>test2</td><td>test2</td><td>Zákazník</td></tr>
+</tbody></table>
+
+<h2>Implementace</h2>
+<table>
+  <tbody><tr>
+    <td>addToCart.php<br>removeFromCart.php<br>updateCart.php<br>
+    </td><td>Práce s košíkem - přidání, odebrání a aktualizace položek.<br>
+  </td></tr>
+  <tr>
+    <td>area.php</td>
+    <td>Zobrazení čajové oblasti.<br></td>
+  </tr>
+  <tr>
+    <td>caj.php</td>
+    <td>Zobrazení podrobných informací o čaji, zobrazení dostupných várek a možnost přidání určitého množství várky do košíku.<br></td>
+  </tr>
+  <tr>
+    <td>caj-add.php<br>caj-update.php<br>caj-edit.php<br>varka-add.php<br></td>
+    <td>Přidání a editace konkrétního čaje, umožňuje i přidáni nové várky k čaji, její editaci a smazání.<br></td>
+  </tr>
+  <tr>
+    <td>caje.php</td>
+    <td>Zobrazení všech čajů, možnost vyhledávaní pomocí regulárního výrazu a filtrování podle druhu čaje.<br></td>
+  </tr>
+  <tr>
+    <td>caje-edit.php</td>
+    <td>Volba čaje pro editaci.<br></td>
+  </tr>
+  <tr>
+    <td>cart.php</td>
+    <td>Zobrazení položek košíku s možností editace množství a odstranění z košíku.<br></td>
+  </tr>
+  <tr>
+    <td>config.php</td>
+    <td>Konfigurační soubor pro nastavení potřebných proměnných.<br></td>
+  </tr>
+  <tr>
+    <td>contacts.php</td>
+    <td>Stránka pro kontaktování, obsahuje vloženou mapu Google Maps.<br></td>
+  </tr>
+  <tr>
+    <td>customer.php</td>
+    <td>Zobrazení podrobných informací o zákazníkovi.<br></td>
+  </tr>
+  <tr>
+    <td>customers.php</td>
+    <td>Zobrazení všech zákazníků.<br></td>
+  </tr>
+  <tr>
+    <td>db.php</td>
+    <td>Skript pro vytvoření spojení s databází.<br></td>
+  </tr>
+  <tr>
+    <td>header.php</td>
+    <td>Hlavička sdílená všemi uživatelskými stránkami.<br></td>
+  </tr>
+  <tr>
+    <td>checkAdmin.php<br>checkUser.php<br></td>
+    <td>Skript pro kontrolu přístupu k stránkam pro jednotlivé role.<br></td>
+  </tr>
+  <tr>
+    <td>index.php</td>
+    <td>Vstupní stránka, obsahuje novinky.<br></td>
+  </tr>
+  <tr>
+    <td>login.php<br>loginDetection.php<br>logout.php<br></td>
+    <td>Skripty pro přihlášení, detekovaní existujícího přihlášení a odhlášení ze systému.<br></td>
+  </tr>
+  <tr>
+    <td>mail.php<br>mail-send.php<br></td>
+    <td>Stránka pro informování uživatelů nebo zaslání novinek pomocí e-mailu.<br></td>
+  </tr>
+  <tr>
+    <td>mainInit.php</td>
+    <td>Skript využíván k inicializaci php na stránkách přístupných uživateli.<br></td>
+  </tr>
+  <tr>
+    <td>menu.php</td>
+    <td>Menu sdílené všemi uživatelskými stránkami.</td>
+  </tr>
+  <tr>
+    <td>objednavka-edit.php<br>odjednavka-update.php<br></td>
+    <td>Editace objednávky administrátorem.<br></td>
+  </tr>
+  <tr>
+    <td>order.php<br>order-done.php<br></td>
+    <td>Zobrazení faktúry a finální potvrzení objednávky, na straně databáze probíha kontrola dostupnosti výrobku a v případě chyby se uživatel vrací na košík. <br></td>
+  </tr>
+  <tr>
+    <td>orders.php</td>
+    <td>Zobrazení všech objednávek zákazníka a možnost stornování nevybavených objednávek.<br></td>
+  </tr>
+  <tr>
+    <td>registration.php</td>
+    <td>Registrace nového uživatele.<br></td>
+  </tr>
+  <tr>
+    <td>stornoOrder.php<br>stornoOrder-action.php<br></td>
+    <td>Stornování objednávky.<br></td>
+  </tr>
+  <tr>
+    <td>supplier.php</td>
+    <td>Zobrazení informací o dodavateli.<br></td>
+  </tr>
+  <tr>
+    <td>user-edit.php<br>user-update.php<br></td>
+    <td>Úprava osobních údajů uživatelem.<br></td>
+  </tr>
+</tbody></table>
+
+<p>
+Implementovány byli všechny případy užití vytvořené v rámci projektu pro předmět IUS.
+Z hlediska požadavků na projekt do předmětu IIS byly taktéž splněny všechny, kromě plného systému správy uživatelů. Ten je přítomen jen ze strany uživatele, kterému je umožněna editace a smazání účtu po přihlášení.
+Při implementaci nebyli využité žádne frameworky a všechna funkcionalita byla tedy vytvořená autory pomocí jazyků HTML, CSS, PHP, JavaScript a SQL.
+Databázový systém je mírně odlišný od toho vytvořeného pro předmět IDS. Přibyla tabulka pro uživatele, která umožňuje smazání účtu bez stráty informací o zákazníkovi.
+To je důležité z hlediska zachování informací pro archivované objednávky. Dále pro objednávku přibyl atribut <em>košík</em>, který určuje, zda objednávka reprezentuje košik. 
+</p>
+
+<h2>Instalace</h2>
+<ul>
+<li>Instalace probíha překopírovaním souborů na server do cílové složky, vytvořením složky <em>tmp</em> se zápisovými právy pro sezení a změnou konfiguračního souboru <em>config.php</em> na správne hodnoty.</li>
+<li>Stránky nevyžadují speciální software a konfigurace na serveru EVA je postačující - PHP 5.3 a MySQL 5.5.</li>
+<li>Databáze se inicializuje skriptem <em>create.sql</em>, který je možné importovat přes systém phpMyAdmin.</li>
+</ul>
+
+<h2>Známé problémy</h2>
+<p>Nebyla implementována plná správa uživatelů administrátorem z důvodu částečné implementace v rámci role uživatele a absence vyhrazené role pro administrátora, ktrerý je reprezentován pouze distributorem. 
+Případná implementace by tedy byla duplicitou, pouze by se změnila role, ze které by byla přístupná.</p>
+
+
+
+</body></html>
